@@ -1,9 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useUser } from '@/contexts/userContext';
+import { Router, useRouter } from 'expo-router';
 
 const ProfileScreen = () => {
   const { userInfo } = useUser();
+  const route = useRouter();
+
 
   return (
     <View style={styles.container}>
@@ -25,7 +28,7 @@ const ProfileScreen = () => {
       
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Edit Profile</Text>
+          <Text style={styles.buttonText} onPress={() => route.push('/profile/EditProfile')}>Edit Profile</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, styles.secondaryButton]}>
           <Text style={styles.buttonText}>Change Password</Text>

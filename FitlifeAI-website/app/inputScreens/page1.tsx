@@ -8,18 +8,19 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useUser } from "@/contexts/userContext";
-import axios from "axios";
+import { axiosWithAuth } from "@/app/utils/api";
 
 const GenderAgeOccupationScreen = () => {
   const { userInfo, updateUserInfo } = useUser();
+  const [gender, setGender] = useState(userInfo.gender || "");
+  const [age, setAge] = useState(userInfo.age || "");
+  const [occupation, setOccupation] = useState(userInfo.occupation || "");
+  const [physicalActivity, setPhysicalActivity] = useState(
+    userInfo.physicalActivity || ""
+  );
 
-  const [gender, setGender] = useState("");
-  const [age, setAge] = useState("");
-  const [occupation, setOccupation] = useState("");
-  const [physicalActivity, setPhysicalActivity] = useState("");
-
-  const { username } = useLocalSearchParams(); // <-- get username
-  const router = useRouter(); // <-- initialize router
+  const { username } = useLocalSearchParams();
+  const router = useRouter();
 
   const handleNext = async () => {
     if (!gender || !age || !occupation || !physicalActivity) {
@@ -27,45 +28,31 @@ const GenderAgeOccupationScreen = () => {
       return;
     }
 
-    // Prepare data to send to backend
     const userData = {
       gender,
-      age,
+      age: Number(age),
       occupation,
-      physicalActivity,
+      physical_activity_level: physicalActivity,
     };
 
     try {
-      // Send POST request using axios
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/recommendations/",
-        userData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const api = await axiosWithAuth();
+      const response = await api.post("/api/user-input/", userData);
 
-      // Check if the response is successful
       if (response.status === 200) {
-        updateUserInfo(userData); // Store updated data in context
-        // Navigate to the next page
+        updateUserInfo(userData); // Save in context
         router.push({
           pathname: "/inputScreens/page2",
           params: {
             username,
-            gender,
-            age,
-            occupation,
-            physicalActivity,
           },
         });
       } else {
-        alert("Failed to update data");
+        alert("Failed to save data");
       }
-    } catch (error) {
-      alert("Error: " + error.message);
+    } catch (error: any) {
+      console.error("Error saving data:", error);
+      alert("Error: " + (error.response?.data?.detail || error.message));
     }
   };
 
@@ -92,8 +79,8 @@ const GenderAgeOccupationScreen = () => {
       <Text style={styles.label}>Please enter your age</Text>
       <TextInput
         style={styles.input}
-        placeholder="age"
-        value={age}
+        placeholder="Age"
+        value={age.toString()}
         onChangeText={setAge}
         keyboardType="numeric"
       />
@@ -101,7 +88,7 @@ const GenderAgeOccupationScreen = () => {
       <Text style={styles.label}>Occupation</Text>
       <TextInput
         style={styles.input}
-        placeholder="occupation"
+        placeholder="Occupation"
         value={occupation}
         onChangeText={setOccupation}
       />
@@ -109,12 +96,11 @@ const GenderAgeOccupationScreen = () => {
       <Text style={styles.label}>Physical Activity Level</Text>
       <TextInput
         style={styles.input}
-        placeholder="physical activity level"
+        placeholder="Physical activity level"
         value={physicalActivity}
         onChangeText={setPhysicalActivity}
       />
 
-      {/* Next Button */}
       <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
         <Text style={styles.nextButtonText}>Next</Text>
       </TouchableOpacity>

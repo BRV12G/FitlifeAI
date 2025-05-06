@@ -52,9 +52,7 @@
 //   return context;
 // };
 
-
-
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useContext, ReactNode } from "react";
 
 // 1. Define full User Info type
 interface UserInfo {
@@ -64,7 +62,7 @@ interface UserInfo {
   username: string;
   password: string;
   gender: string;
-  age: string;
+  age: number;
   occupation: string;
   physicalActivity: string;
   sleepHours: number;
@@ -80,8 +78,6 @@ interface UserInfo {
   heartrate: number;
   dailySteps: number;
   sleepDisorder: string;
-
-
 }
 
 // 2. Define Context type
@@ -101,28 +97,28 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 // 5. Provider Component
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [userInfo, setUserInfo] = useState<UserInfo>({
-    firstName: '',
-    lastName: '',
-    email: '',
-    username: '',
-    password: '',
-    gender: '',
-    age: '',
-    occupation: '',
-    physicalActivity: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    username: "",
+    password: "",
+    gender: "",
+    age: 0,
+    occupation: "",
+    physicalActivity: "",
     sleepHours: 0, // Set initial value for sleepHours
     qualityOfSleep: 0, // Set initial value for qualityOfSleep
     stressLevel: 0, // Set initial value for stressLevel
     height: 0, // Set initial value for height
     weight: 0, // Set initial value for weight
     bmi: 0, // Set initial value for bmi
-    bmiCategory: '', // Set initial value for bmiCategory
-    bloodPressureCategory: '', // Set initial value for bloodPressureCategory
-    systolicPressure: 0, // Set initial value for systolicPressure    
+    bmiCategory: "", // Set initial value for bmiCategory
+    bloodPressureCategory: "", // Set initial value for bloodPressureCategory
+    systolicPressure: 0, // Set initial value for systolicPressure
     diastolicPressure: 0, // Set initial value for diastolicPressure
     heartrate: 0, // Set initial value for heartrate
     dailySteps: 0, // Set initial value for dailySteps
-    sleepDisorder: '', // Set initial value for sleepDisorder
+    sleepDisorder: "", // Set initial value for sleepDisorder
   });
 
   // Allow partial updates
@@ -144,7 +140,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 export const useUser = (): UserContextType => {
   const context = useContext(UserContext);
   if (!context) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error("useUser must be used within a UserProvider");
   }
   return context;
 };

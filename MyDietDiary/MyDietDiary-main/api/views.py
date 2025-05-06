@@ -1,9 +1,15 @@
 from django.contrib.auth import authenticate
-from rest_framework import status
-#from rest_framework.views import APIView
+from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from .serializers import RecommendationSerializer
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.authtoken.models import Token
+from .serializers import RecommendationSerializer, UserSerializer
+from rest_framework import status, permissions
+from django.shortcuts import get_object_or_404
+from .models import UserProfileInput
+from .serializers import UserProfileInputSerializer
+from django.contrib.auth.models import User
 from recommender.functions import Weight_Loss, Weight_Gain, Healthy  # Import functions
 
 @api_view(['POST'])
@@ -39,21 +45,78 @@ def get_recommendations(request):
     serializer = RecommendationSerializer(recommendations)
     return Response(serializer.data)
 
+# @api_view(['POST'])
+# def login_user(request):
+#     """
+#     Login API for React Native app.
+#     Expects JSON: { "emailOrUsername": "user", "password": "pass" }
+#     """
+#     email_or_username = request.data.get('emailOrUsername')
+#     password = request.data.get('password')
+
+#     if not email_or_username or not password:
+#         return Response({'error': 'Please provide both username/email and password'}, status=status.HTTP_400_BAD_REQUEST)
+
+#     user = authenticate(username=email_or_username, password=password)
+
+#     if user is not None:
+#         return Response({'message': 'Login successful', 'user': user.username}, status=status.HTTP_200_OK)
+#     else:
+#         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def signup_view(request):
+    print("Signup data:", request.data)
+    serializer = UserSerializer(data= request.data)
+    if serializer.is_valid():
+        serializer.save()
+        user = User.objects.get(username = request.data['username'])
+        user.set_password(request.data['password'])
+        user.save()
+        token, _ = Token.objects.get_or_create(user=user)
+        return Response({"token": token.key, "user": serializer.data})
+    return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
 def login_user(request):
-    """
-    Login API for React Native app.
-    Expects JSON: { "emailOrUsername": "user", "password": "pass" }
-    """
-    email_or_username = request.data.get('emailOrUsername')
-    password = request.data.get('password')
+    user = get_object_or_404(User, username = request.data['username'])
+    if not user.check_password(request.data['password']):
+        return Response({"detail": "Not found."}, status= status.HTTP_404_NOT_FOUND)
+    token, created = Token.objects.get_or_create(user = user)
+    serializer = UserSerializer(instance = user)
+    return Response({"token": token.key, "user": serializer.data})
 
-    if not email_or_username or not password:
-        return Response({'error': 'Please provide both username/email and password'}, status=status.HTTP_400_BAD_REQUEST)
+class UserInputView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
 
-    # Authenticate using username (email-based login requires custom logic)
-    user = authenticate(username=email_or_username, password=password)
+    def get_object(self, user):
+        profile, created = UserProfileInput.objects.get_or_create(user=user)
+        return profile
 
-    if user is not None:
-        return Response({'message': 'Login successful', 'user': user.username}, status=status.HTTP_200_OK)
-    else:
-        return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+    def get(self, request):
+        profile = self.get_object(request.user)
+        serializer = UserProfileInputSerializer(profile)
+        return Response(serializer.data)
+
+    def post(self, request):
+        profile = self.get_object(request.user)
+        serializer = UserProfileInputSerializer(profile, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# @api_view(['POST'])
+# def signup_view(request):
+#     username = request.data.get('username')
+#     password = request.data.get('password')
+#     firstname = request.data.get('firstname')
+#     lastname = request.data.get('lastname')
+#     email = request.data.get('email')
+
+
+#     if username and password and firstname and lastname and email:
+#         return Response({'message': 'User created'}, status=status.HTTP_201_CREATED)
+#     return Response({'error': 'Missing fields'}, status=status.HTTP_400_BAD_REQUEST)
+

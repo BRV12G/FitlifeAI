@@ -100,6 +100,7 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
+//import api from "./utils/api";
 import axios from "axios"; // Import axios
 import { useUser } from "@/contexts/userContext"; // <-- Import context
 

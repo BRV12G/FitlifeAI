@@ -23,6 +23,21 @@ class UserProfileInputSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ['user']
 
+class Page1Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfileInput
+        fields = ['gender', 'age', 'occupation', 'physical_activity']
+
+class Page2Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfileInput
+        fields = ['sleep_hours', 'quality_of_sleep', 'stress_level']
+
+class Page3Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfileInput
+        fields = ['height', 'weight']
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

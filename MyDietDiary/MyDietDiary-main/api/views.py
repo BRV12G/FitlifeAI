@@ -2,13 +2,13 @@ from django.contrib.auth import authenticate
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
 from .serializers import RecommendationSerializer, UserSerializer
 from rest_framework import status, permissions
 from django.shortcuts import get_object_or_404
 from .models import UserProfileInput
-from .serializers import UserProfileInputSerializer
+from .serializers import UserProfileInputSerializer, Page1Serializer, Page2Serializer
 from django.contrib.auth.models import User
 from recommender.functions import Weight_Loss, Weight_Gain, Healthy  # Import functions
 
@@ -86,26 +86,69 @@ def login_user(request):
     token, created = Token.objects.get_or_create(user = user)
     serializer = UserSerializer(instance = user)
     return Response({"token": token.key, "user": serializer.data})
-
-class UserInputView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_object(self, user):
-        profile, created = UserProfileInput.objects.get_or_create(user=user)
-        return profile
+        
+class Page1View(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        profile = self.get_object(request.user)
-        serializer = UserProfileInputSerializer(profile)
+        data, _ = UserProfileInput.objects.get_or_create(user=request.user)
+        serializer = Page1Serializer(data)
         return Response(serializer.data)
 
     def post(self, request):
-        profile = self.get_object(request.user)
-        serializer = UserProfileInputSerializer(profile, data=request.data, partial=True)
+        try:
+            # Try to get the existing user profile input
+            data = UserProfileInput.objects.get(user=request.user)
+            serializer = Page1Serializer(data, data=request.data, partial=True)
+        except UserProfileInput.DoesNotExist:
+            # Creating a new instance if it doesn't exist
+            serializer = Page1Serializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save(user=request.user)  # Set the user manually
+                return Response({'message': 'Page 1 data created successfully'})
+            return Response(serializer.errors, status=400)
+
         if serializer.is_valid():
-            serializer.save(user=request.user)
-            return Response(serializer.data)
+            serializer.save()
+            return Response({'message': 'Page 1 data updated successfully'})
+        return Response(serializer.errors, status=400)
+
+
+class Page2View(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        data, _ = UserProfileInput.objects.get_or_create(user=request.user)
+        serializer = Page2Serializer(data)
+        return Response(serializer.data)
+
+    def post(self, request):
+        data, _ = UserProfileInput.objects.get_or_create(user=request.user)
+        serializer = Page2Serializer(data, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Page 2 data saved successfully'})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# class UserInputView(APIView):
+#     permission_classes = [permissions.IsAuthenticated]
+
+#     def get_object(self, user):
+#         profile, created = UserProfileInput.objects.get_or_create(user=user)
+#         return profile
+
+#     def get(self, request):
+#         profile = self.get_object(request.user)
+#         serializer = UserProfileInputSerializer(profile)
+#         return Response(serializer.data)
+
+#     def post(self, request):
+#         profile = self.get_object(request.user)
+#         serializer = UserProfileInputSerializer(profile, data=request.data, partial=True)
+#         if serializer.is_valid():
+#             serializer.save(user=request.user)
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # @api_view(['POST'])
 # def signup_view(request):

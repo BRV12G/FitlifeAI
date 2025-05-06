@@ -32,12 +32,12 @@ const GenderAgeOccupationScreen = () => {
       gender,
       age: Number(age),
       occupation,
-      physical_activity_level: physicalActivity,
+      physical_activity: physicalActivity,
     };
 
     try {
       const api = await axiosWithAuth();
-      const response = await api.post("/api/user-input/", userData);
+      const response = await api.post("/api/user-input/page1/", userData);
 
       if (response.status === 200) {
         updateUserInfo(userData); // Save in context

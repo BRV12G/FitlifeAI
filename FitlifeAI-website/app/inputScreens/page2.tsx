@@ -37,7 +37,10 @@ const SleepScreen = () => {
     try {
       // Send updated user data to backend
       const axiosInstance = await axiosWithAuth();
-      const response = await axiosInstance.post("/api/user-input/", userData);
+      const response = await axiosInstance.post(
+        "/api/user-input/page2/",
+        userData
+      );
 
       // Check if the response is successful
       if (response.status === 200) {

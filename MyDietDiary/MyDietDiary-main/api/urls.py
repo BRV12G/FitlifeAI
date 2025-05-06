@@ -9,4 +9,5 @@ urlpatterns = [
     path('token/', obtain_auth_token, name='api-token'),
     path('signup/', signup_view, name='signup_view'),
     path('user-input/page1/', Page1View.as_view(), name='page1'),
+    path('user-input/page2/', Page2View.as_view(), name='page2'),
 ]

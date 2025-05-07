@@ -78,6 +78,7 @@ interface UserInfo {
   heartrate: number;
   dailySteps: number;
   sleepDisorder: string;
+  authToken: string;
 }
 
 // 2. Define Context type
@@ -119,6 +120,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     heartrate: 0, // Set initial value for heartrate
     dailySteps: 0, // Set initial value for dailySteps
     sleepDisorder: "", // Set initial value for sleepDisorder
+    authToken: "",
   });
 
   // Allow partial updates

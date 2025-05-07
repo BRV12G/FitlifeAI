@@ -43,7 +43,7 @@ const Login = () => {
         console.log("Login successful!");
 
         await AsyncStorage.setItem("authToken", data.token);
-        updateUserInfo({ username: data.username });
+        updateUserInfo({ username: data.username, authToken: data.token });
 
         router.push({
           pathname: "/inputScreens/page1",

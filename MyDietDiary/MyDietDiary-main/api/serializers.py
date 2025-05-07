@@ -38,6 +38,23 @@ class Page3Serializer(serializers.ModelSerializer):
         model = UserProfileInput
         fields = ['height', 'weight']
 
+class Page4Serializer(serializers.ModelSerializer):
+    bloodPressureCategory = serializers.CharField(source='bp_category')
+    systolicPressure = serializers.IntegerField(source='systolic')
+    diastolicPressure = serializers.IntegerField(source='diastolic')
+    class Meta:
+        model = UserProfileInput
+        fields = ['bloodPressureCategory', 'systolicPressure', 'diastolicPressure']
+        # fields = ['bp_category', 'systolic', 'diastolic']
+
+class Page5Serializer(serializers.ModelSerializer):
+    heartrate = serializers.CharField(source='heart_rate')
+    dailySteps = serializers.IntegerField(source='daily_steps')
+    sleepDisorder = serializers.IntegerField(source='sleep_disorder')
+    class Meta:
+        model = UserProfileInput
+        fields = ['heartrate', 'dailySteps', 'sleepDisorder']
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

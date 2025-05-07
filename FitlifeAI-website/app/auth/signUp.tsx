@@ -136,7 +136,6 @@ const SignUp = () => {
     // Send form data to your Django backend
     try {
       const response = await axios.post("http://localhost:8000/api/signup/", {
-        // Replace with your actual backend URL
         first_name: firstName,
         last_name: lastName,
         email: email,

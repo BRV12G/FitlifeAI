@@ -8,8 +8,9 @@ from .serializers import RecommendationSerializer, UserSerializer
 from rest_framework import status, permissions
 from django.shortcuts import get_object_or_404
 from .models import UserProfileInput
-from .serializers import UserProfileInputSerializer, Page1Serializer, Page2Serializer
+from .serializers import UserProfileInputSerializer, Page1Serializer, Page2Serializer, Page3Serializer, Page4Serializer, Page5Serializer
 from django.contrib.auth.models import User
+from rest_framework.authentication import TokenAuthentication
 from recommender.functions import Weight_Loss, Weight_Gain, Healthy  # Import functions
 
 @api_view(['POST'])
@@ -45,24 +46,6 @@ def get_recommendations(request):
     serializer = RecommendationSerializer(recommendations)
     return Response(serializer.data)
 
-# @api_view(['POST'])
-# def login_user(request):
-#     """
-#     Login API for React Native app.
-#     Expects JSON: { "emailOrUsername": "user", "password": "pass" }
-#     """
-#     email_or_username = request.data.get('emailOrUsername')
-#     password = request.data.get('password')
-
-#     if not email_or_username or not password:
-#         return Response({'error': 'Please provide both username/email and password'}, status=status.HTTP_400_BAD_REQUEST)
-
-#     user = authenticate(username=email_or_username, password=password)
-
-#     if user is not None:
-#         return Response({'message': 'Login successful', 'user': user.username}, status=status.HTTP_200_OK)
-#     else:
-#         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def signup_view(request):
@@ -88,6 +71,7 @@ def login_user(request):
     return Response({"token": token.key, "user": serializer.data})
         
 class Page1View(APIView):
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -129,37 +113,91 @@ class Page2View(APIView):
             serializer.save()
             return Response({'message': 'Page 2 data saved successfully'})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
-# class UserInputView(APIView):
-#     permission_classes = [permissions.IsAuthenticated]
+class Page3View(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
-#     def get_object(self, user):
-#         profile, created = UserProfileInput.objects.get_or_create(user=user)
-#         return profile
+    def get(self, request):
+        data, _ = UserProfileInput.objects.get_or_create(user=request.user)
+        serializer = Page3Serializer(data)
+        return Response(serializer.data)
 
-#     def get(self, request):
-#         profile = self.get_object(request.user)
-#         serializer = UserProfileInputSerializer(profile)
-#         return Response(serializer.data)
+    def post(self, request):
+        try:
+            user_data = UserProfileInput.objects.get(user=request.user)
+        except UserProfileInput.DoesNotExist:
+            user_data = None
 
-#     def post(self, request):
-#         profile = self.get_object(request.user)
-#         serializer = UserProfileInputSerializer(profile, data=request.data, partial=True)
-#         if serializer.is_valid():
-#             serializer.save(user=request.user)
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        height = request.data.get('height')
+        weight = request.data.get('weight')
 
-# @api_view(['POST'])
-# def signup_view(request):
-#     username = request.data.get('username')
-#     password = request.data.get('password')
-#     firstname = request.data.get('firstname')
-#     lastname = request.data.get('lastname')
-#     email = request.data.get('email')
+        if not height or not weight:
+            return Response({"error": "Both height and weight are required."}, status=status.HTTP_400_BAD_REQUEST)
 
+        try:
+            height_m = float(height) / 100  # cm to meters
+            weight_kg = float(weight)
+            bmi = round(weight_kg / (height_m ** 2), 2)
+        except (ValueError, ZeroDivisionError):
+            return Response({"error": "Invalid height or weight value."}, status=status.HTTP_400_BAD_REQUEST)
 
-#     if username and password and firstname and lastname and email:
-#         return Response({'message': 'User created'}, status=status.HTTP_201_CREATED)
-#     return Response({'error': 'Missing fields'}, status=status.HTTP_400_BAD_REQUEST)
+        # Determine BMI category
+        if bmi < 18.5:
+            bmi_category = 'Underweight'
+        elif 18.5 <= bmi < 25:
+            bmi_category = 'Normal'
+        elif 25 <= bmi < 30:
+            bmi_category = 'Overweight'
+        else:
+            bmi_category = 'Obese'
 
+        updated_data = {
+            'height': height,
+            'weight': weight,
+            'bmi': bmi,
+            'bmi_category': bmi_category,
+        }
+
+        if user_data:
+            serializer = Page3Serializer(user_data, data=updated_data, partial=True)
+        else:
+            serializer = Page3Serializer(data=updated_data)
+
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response({'message': 'Page 3 data saved successfully'})
+        return Response(serializer.errors, status=400)
+
+class Page4View(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        data, _ = UserProfileInput.objects.get_or_create(user=request.user)
+        serializer = Page4Serializer(data)
+        return Response(serializer.data)
+
+    def post(self, request):
+        data, _ = UserProfileInput.objects.get_or_create(user=request.user)
+        serializer = Page4Serializer(data, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Page 4 data saved successfully'})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class Page5View(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        data, _ = UserProfileInput.objects.get_or_create(user=request.user)
+        serializer = Page5Serializer(data)
+        return Response(serializer.data)
+
+    def post(self, request):
+        data, _ = UserProfileInput.objects.get_or_create(user=request.user)
+        serializer = Page5Serializer(data, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Page 2 data saved successfully'})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

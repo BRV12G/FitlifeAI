@@ -23,7 +23,8 @@ class UserProfileInput(models.Model):
     bp_category = models.CharField(max_length=30, null=True, blank=True)
     systolic = models.PositiveIntegerField(null=True, blank=True)
     diastolic = models.PositiveIntegerField(null=True, blank=True)
-    bmi = models.IntegerField(null=True, blank= True)
+    bmi = models.FloatField(null=True, blank= True)
+    bmi_category = models.CharField(max_length=50, null=True, blank=True)
 
     # Page 5
     heart_rate = models.PositiveIntegerField(null=True, blank=True)

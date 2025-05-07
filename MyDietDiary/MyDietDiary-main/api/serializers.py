@@ -36,7 +36,7 @@ class Page2Serializer(serializers.ModelSerializer):
 class Page3Serializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfileInput
-        fields = ['height', 'weight']
+        fields = ['height', 'weight', 'bmi', 'bmi_category']
 
 class Page4Serializer(serializers.ModelSerializer):
     bloodPressureCategory = serializers.CharField(source='bp_category')

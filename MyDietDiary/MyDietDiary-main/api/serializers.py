@@ -48,9 +48,9 @@ class Page4Serializer(serializers.ModelSerializer):
         # fields = ['bp_category', 'systolic', 'diastolic']
 
 class Page5Serializer(serializers.ModelSerializer):
-    heartrate = serializers.CharField(source='heart_rate')
+    heartrate = serializers.IntegerField(source='heart_rate')
     dailySteps = serializers.IntegerField(source='daily_steps')
-    sleepDisorder = serializers.IntegerField(source='sleep_disorder')
+    sleepDisorder = serializers.CharField(source='sleep_disorder')
     class Meta:
         model = UserProfileInput
         fields = ['heartrate', 'dailySteps', 'sleepDisorder']

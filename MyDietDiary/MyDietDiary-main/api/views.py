@@ -199,5 +199,5 @@ class Page5View(APIView):
         serializer = Page5Serializer(data, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response({'message': 'Page 2 data saved successfully'})
+            return Response({'message': 'Page 5 data saved successfully'})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

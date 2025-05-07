@@ -1,9 +1,10 @@
 from django.urls import path
-from .views import get_recommendations, login_user, signup_view, Page1View, Page2View, Page3View, Page4View, Page5View
+from .views import login_user, signup_view, Page1View, Page2View, Page3View, Page4View, Page5View, recommendations
 from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
-    path('recommendations/', get_recommendations, name='get-recommendations'),
+   # path('get-recommendations/', get_recommendations, name='get-recommendations'),
+    path('recommendations/', recommendations, name='recommendations'),
     path('login/', login_user, name='login_user'),
     # path('user-input/', UserInputView.as_view(), name='user-input'),
     path('token/', obtain_auth_token, name='api-token'),

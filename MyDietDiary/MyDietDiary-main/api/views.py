@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
 from .serializers import RecommendationSerializer, UserSerializer
@@ -13,38 +13,38 @@ from django.contrib.auth.models import User
 from rest_framework.authentication import TokenAuthentication
 from recommender.functions import Weight_Loss, Weight_Gain, Healthy  # Import functions
 
-@api_view(['POST'])
-def get_recommendations(request):
-    """
-    API endpoint to get food recommendations based on user inputs.
-    Expects JSON input: {"age": 25, "weight": 70, "height": 175, "goal": "weight_loss", "sleep_duration": 7, "quality_of_sleep": "Good", "physical_activity_level": "high", "stress_level": "high", "Blood_pressure_category": "Hypertension", "Heart_rate": 80, "Daily_steps" : 6000, "occupation": "Doctor"}
-    """
-    data = request.data
-    age = data.get("age")
-    weight = data.get("weight")
-    height = data.get("height")
-    goal = data.get("goal", "weight_loss")  # Default to weight loss
+# @api_view(['POST'])
+# def get_recommendations(request):
+#     """
+#     API endpoint to get food recommendations based on user inputs.
+#     Expects JSON input: {"age": 25, "weight": 70, "height": 175, "goal": "weight_loss", "sleep_duration": 7, "quality_of_sleep": "Good", "physical_activity_level": "high", "stress_level": "high", "Blood_pressure_category": "Hypertension", "Heart_rate": 80, "Daily_steps" : 6000, "occupation": "Doctor"}
+#     """
+#     data = request.data
+#     age = data.get("age")
+#     weight = data.get("weight")
+#     height = data.get("height")
+#     goal = data.get("goal", "weight_loss")  # Default to weight loss
 
-    if not all([age, weight, height]):
-        return Response({"error": "Missing required parameters"}, status=400)
+#     if not all([age, weight, height]):
+#         return Response({"error": "Missing required parameters"}, status=400)
 
-    # Call the appropriate function
-    if goal == "weight_loss":
-        recommendations = Weight_Loss(age, weight, height)
-    elif goal == "weight_gain":
-        recommendations = Weight_Gain(age, weight, height)
-    elif goal == "healthy":
-        recommendations = Healthy(age, weight, height)
-    else:
-        return Response({"error": "Invalid goal. Use 'weight_loss', 'weight_gain', or 'healthy'."}, status=400)
+#     # Call the appropriate function
+#     if goal == "weight_loss":
+#         recommendations = Weight_Loss(age, weight, height)
+#     elif goal == "weight_gain":
+#         recommendations = Weight_Gain(age, weight, height)
+#     elif goal == "healthy":
+#         recommendations = Healthy(age, weight, height)
+#     else:
+#         return Response({"error": "Invalid goal. Use 'weight_loss', 'weight_gain', or 'healthy'."}, status=400)
 
-    # Check if recommendations contain required fields
-    if not recommendations or "bmi" not in recommendations or "bmi_info" not in recommendations:
-        return Response({"error": "No food recommendations found."}, status=400)
+#     # Check if recommendations contain required fields
+#     if not recommendations or "bmi" not in recommendations or "bmi_info" not in recommendations:
+#         return Response({"error": "No food recommendations found."}, status=400)
 
-    # Serialize the response correctly
-    serializer = RecommendationSerializer(recommendations)
-    return Response(serializer.data)
+#     # Serialize the response correctly
+#     serializer = RecommendationSerializer(recommendations)
+#     return Response(serializer.data)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -201,3 +201,48 @@ class Page5View(APIView):
             serializer.save()
             return Response({'message': 'Page 5 data saved successfully'})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def recommendations(request):
+    user = request.user
+
+    try:
+        user_data = UserProfileInput.objects.get(user=user)
+    except UserProfileInput.DoesNotExist:
+        return Response({"error": "User input data not found."}, status=404)
+
+    # Retrieve values from DB
+    age = user_data.age
+    weight = user_data.weight
+    height = user_data.height
+   # goal = user_data.goal or "weight_loss"  # Optional field in your model
+    goal = "weight_loss"
+    sleep_hours = user_data.sleep_hours
+    quality_of_sleep = user_data.quality_of_sleep
+    physical_activity = user_data.physical_activity
+    stress_level = user_data.stress_level
+    bp_category = user_data.bp_category
+    heart_rate = user_data.heart_rate
+    daily_steps = user_data.daily_steps
+    occupation = user_data.occupation
+
+    if not all([age, weight, height]):
+        return Response({"error": "Missing required parameters"}, status=400)
+
+    # Run appropriate recommendation logic
+    if goal == "weight_loss":
+        recommendations = Weight_Loss(age, weight, height)
+    elif goal == "weight_gain":
+        recommendations = Weight_Gain(age, weight, height)
+    elif goal == "healthy":
+        recommendations = Healthy(age, weight, height)
+    else:
+        return Response({"error": "Invalid goal."}, status=400)
+
+    if not recommendations or "bmi" not in recommendations or "bmi_info" not in recommendations:
+        return Response({"error": "No recommendations found."}, status=400)
+
+    serializer = RecommendationSerializer(recommendations)
+    return Response(serializer.data)

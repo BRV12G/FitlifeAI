@@ -5,4 +5,4 @@ from .models import UserProfileInput
 
 @admin.register(UserProfileInput)
 class UserProfileInputAdmin(admin.ModelAdmin):
-    list_display= ['user', 'height', 'weight', 'occupation', 'gender', 'bp_category', 'systolic', 'diastolic', 'heart_rate', 'daily_steps', 'sleep_disorder', 'bmi', 'bmi_category']
+    list_display= ['user', 'age', 'height', 'weight', 'occupation', 'gender', 'bp_category', 'systolic', 'diastolic', 'heart_rate', 'daily_steps', 'sleep_disorder', 'bmi', 'bmi_category']

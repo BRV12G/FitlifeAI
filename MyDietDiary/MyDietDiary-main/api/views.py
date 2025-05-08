@@ -4,13 +4,14 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
-from .serializers import RecommendationSerializer, UserSerializer
+from .serializers import RecommendationSerializer, UserSerializer, FitnessDataSerializer
 from rest_framework import status, permissions
 from django.shortcuts import get_object_or_404
 from .models import UserProfileInput
 from .serializers import UserProfileInputSerializer, Page1Serializer, Page2Serializer, Page3Serializer, Page4Serializer, Page5Serializer
 from django.contrib.auth.models import User
 from rest_framework.authentication import TokenAuthentication
+from .fitness_plan_generator import generate_fitness_plan
 from recommender.functions import Weight_Loss, Weight_Gain, Healthy  # Import functions
 
 # @api_view(['POST'])
@@ -246,3 +247,65 @@ def recommendations(request):
 
     serializer = RecommendationSerializer(recommendations)
     return Response(serializer.data)
+
+
+# @api_view(['POST'])
+# def get_fitness_recommendation(request):
+#     user_data = request.data
+#     result = generate_fitness_plan(user_data)
+#     return Response({"recommendation": result})
+
+# from .fitness_model import generate_fitness_recommendation  # Your custom AI logic
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def generate_fitness_plan(request):
+    user = request.user
+
+    # Get stored health data for the authenticated user
+    try:
+        health_data = UserProfileInput.objects.get(user=user)
+    except UserProfileInput.DoesNotExist:
+        return Response(
+            {"error": "User health data not found."},
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    # Retrieve stored attributes
+    age = health_data.age
+    weight = health_data.weight
+    height = health_data.height
+    gender = health_data.gender
+
+    # Get frontend-provided inputs
+    injury = request.data.get("injury", "")
+    workout_pref = request.data.get("workoutPreference", "")
+    goal = request.data.get("goal", "")
+    weight_goal = request.data.get("weightGoal", "")
+
+    serializer = FitnessDataSerializer(data=request.data, context={"request": request})
+    if not serializer.is_valid():
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    fitness_data = serializer.save()
+
+    # Optional: Input validation (e.g. required fields)
+    if not workout_pref or not goal:
+        return Response(
+            {"error": "Please provide all required fields."},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    # Call your AI model or rule-based logic
+    try:
+        recommendation = generate_fitness_plan(
+            age, weight, height, gender,
+            injury, workout_pref, goal, weight_goal
+        )
+    except Exception as e:
+        return Response(
+            {"error": f"Failed to generate recommendation: {str(e)}"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+    return Response({"recommendation": recommendation}, status=status.HTTP_200_OK)

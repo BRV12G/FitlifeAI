@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import UserProfileInput
+from .models import UserProfileInput, FitnessData
 from django.contrib.auth.models import User
 
 class FoodSerializer(serializers.Serializer):
@@ -72,3 +72,18 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])  # Hash password
         user.save()
         return user
+    
+
+class FitnessDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FitnessData
+        fields = ['injury', 'workout_preference', 'goal', 'weight_goal']
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        # Create or update the user's fitness data
+        fitness_data, created = FitnessData.objects.update_or_create(
+            user=user,
+            defaults=validated_data
+        )
+        return fitness_data

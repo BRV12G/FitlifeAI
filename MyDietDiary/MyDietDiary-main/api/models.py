@@ -33,3 +33,15 @@ class UserProfileInput(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+
+class FitnessData(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="fitness_data")
+    injury = models.CharField(max_length=255, blank=True)
+    workout_preference = models.CharField(max_length=255)
+    goal = models.CharField(max_length=255)
+    weight_goal = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Fitness data for {self.user.username}"

@@ -20,7 +20,7 @@ const Footer = () => {
     {
       label: 'Nutrition',
       icon: require('../assets/Footer-svg/nutrition.svg'),
-      route: '/nutritional-needs/Nutrition',
+      route: '/nutritional-needs/FoodRecommendations',
     },
     {
       label: 'Home',

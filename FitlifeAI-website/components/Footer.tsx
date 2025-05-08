@@ -20,12 +20,12 @@ const Footer = () => {
     {
       label: 'Nutrition',
       icon: require('../assets/Footer-svg/nutrition.svg'),
-      route: '/nutrition',
+      route: '/nutritional-needs/Nutrition',
     },
     {
       label: 'Home',
       icon: require('../assets/Footer-svg/home.svg'),
-      route: '/home',
+      route: '/home/homeScreen',
     },
     {
       label: 'Fitness',
@@ -35,7 +35,7 @@ const Footer = () => {
     {
       label: 'Profile',
       icon: require('../assets/Footer-svg/profile.svg'),
-      route: '/profile',
+      route: '/profile/profileScreen',
     },
   ];
 

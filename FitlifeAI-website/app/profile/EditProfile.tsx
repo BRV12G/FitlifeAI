@@ -204,27 +204,27 @@ import axios from "axios";
 const EditProfileScreen = () => {
   const navigation = useNavigation();
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     username: "",
     email: "",
     age: "",
     gender: "",
     occupation: "",
-    physicalActivity: "",
-    sleepHours: "",
-    qualityOfSleep: "",
-    stressLevel: "",
+    physical_activity: "",
+    sleep_hours: "",
+    quality_of_sleep: "",
+    stress_level: "",
     height: "",
     weight: "",
     bmi: "",
-    bmiCategory: "",
-    bloodPressureCategory: "",
-    systolicPressure: "",
-    diastolicPressure: "",
-    heartrate: "",
-    dailySteps: "",
-    sleepDisorder: "",
+    bmi_category: "",
+    bp_category: "",
+    systolic_pressure: "",
+    diastolic_pressure: "",
+    heart_rate: "",
+    daily_steps: "",
+    sleep_disorder: "",
   });
 
   const fetchUserData = async () => {
@@ -234,27 +234,27 @@ const EditProfileScreen = () => {
       const userInfo = response.data;
       console.log(userInfo);
       setFormData({
-        firstName: userInfo.user.first_name || "",
-        lastName: userInfo.user.last_name || "",
+        first_name: userInfo.user.first_name || "",
+        last_name: userInfo.user.last_name || "",
         username: userInfo.user.username || "",
         email: userInfo.user.email || "",
         age: String(userInfo.age || ""),
         gender: userInfo.gender || "",
         occupation: userInfo.occupation || "",
-        physicalActivity: userInfo.physical_activity || "",
-        sleepHours: String(userInfo.sleep_hours || ""),
-        qualityOfSleep: String(userInfo.quality_of_sleep || ""),
-        stressLevel: String(userInfo.stress_level || ""),
+        physical_activity: userInfo.physical_activity || "",
+        sleep_hours: String(userInfo.sleep_hours || ""),
+        quality_of_sleep: String(userInfo.quality_of_sleep || ""),
+        stress_level: String(userInfo.stress_level || ""),
         height: String(userInfo.height || ""),
         weight: String(userInfo.weight || ""),
         bmi: String(userInfo.bmi || ""),
-        bmiCategory: userInfo.bmi_category || "",
-        bloodPressureCategory: userInfo.bp_category || "",
-        systolicPressure: String(userInfo.systolic || ""),
-        diastolicPressure: String(userInfo.diastolic || ""),
-        heartrate: String(userInfo.heart_rate || ""),
-        dailySteps: String(userInfo.daily_steps || ""),
-        sleepDisorder: userInfo.sleep_disorder || "",
+        bmi_category: userInfo.bmi_category || "",
+        bp_category: userInfo.bp_category || "",
+        systolic_pressure: String(userInfo.systolic || ""),
+        diastolic_pressure: String(userInfo.diastolic || ""),
+        heart_rate: String(userInfo.heart_rate || ""),
+        daily_steps: String(userInfo.daily_steps || ""),
+        sleep_disorder: userInfo.sleep_disorder || "",
       });
     } catch (error) {
       console.error("Error fetching user data", error);
@@ -277,19 +277,19 @@ const EditProfileScreen = () => {
       const convertedData = {
         ...formData,
         age: parseInt(formData.age),
-        sleepHours: parseFloat(formData.sleepHours),
-        qualityOfSleep: parseFloat(formData.qualityOfSleep),
-        stressLevel: parseFloat(formData.stressLevel),
+        sleep_hours: parseFloat(formData.sleep_hours),
+        quality_of_sleep: parseFloat(formData.quality_of_sleep),
+        stress_level: parseFloat(formData.stress_level),
         height: parseFloat(formData.height),
         weight: parseFloat(formData.weight),
         bmi: parseFloat(formData.bmi),
-        systolicPressure: parseFloat(formData.systolicPressure),
-        diastolicPressure: parseFloat(formData.diastolicPressure),
-        heartrate: parseFloat(formData.heartrate),
-        dailySteps: parseInt(formData.dailySteps),
+        systolic_pressure: parseFloat(formData.systolic_pressure),
+        diastolic_pressure: parseFloat(formData.diastolic_pressure),
+        heart_rate: parseFloat(formData.heart_rate),
+        daily_steps: parseInt(formData.daily_steps),
       };
-
-      await axios.put("/api/edit-userprofile/", convertedData);
+      const api = await axiosWithAuth();
+      await api.put("/api/edit-userprofile/", convertedData);
       Alert.alert("Success", "Profile updated successfully");
       navigation.goBack();
     } catch (error) {

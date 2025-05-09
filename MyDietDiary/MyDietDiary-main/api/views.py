@@ -318,24 +318,31 @@ def username(request):
         "username" : user.username,
     })
 
-@api_view(["GET"])
+# @api_view(["GET"])
+# @permission_classes([IsAuthenticated])
+# def user_profile(request):
+#     user = request.user
+#     try:
+#         profile = UserProfileInput.objects.get(user=user)
+#     except UserProfileInput.DoesNotExist:
+#         return Response({"error": "User profile not found."}, status=404)
+
+#     return Response({
+#         "firstname": user.first_name,
+#         "lastname": user.last_name,
+#         "email": user.email,
+#         "age": profile.age,
+#         "gender": profile.gender,
+#         "occupation": profile.occupation,
+#         "sleep_hours": profile.sleep_hours,
+#         "height": profile.height,
+#         "weight": profile.weight,
+#         # ... any other fields
+#     })
+
+@api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def user_profile(request):
-    user = request.user
-    try:
-        profile = UserProfileInput.objects.get(user=user)
-    except UserProfileInput.DoesNotExist:
-        return Response({"error": "User profile not found."}, status=404)
-
-    return Response({
-        "firstname": user.first_name,
-        "lastname": user.last_name,
-        "email": user.email,
-        "age": profile.age,
-        "gender": profile.gender,
-        "occupation": profile.occupation,
-        "sleep_hours": profile.sleep_hours,
-        "height": profile.height,
-        "weight": profile.weight,
-        # ... any other fields
-    })
+    profile = get_object_or_404(UserProfileInput, user=request.user)
+    serializer = UserProfileInputSerializer(profile)
+    return Response(serializer.data)

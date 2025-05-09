@@ -18,6 +18,10 @@ class RecommendationSerializer(serializers.Serializer):
     bmi_info = serializers.CharField()
 
 class UserProfileInputSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username')
+    first_name = serializers.CharField(source='user.first_name')
+    last_name = serializers.CharField(source='user.last_name')
+    email = serializers.EmailField(source='user.email')
     class Meta:
         model = UserProfileInput
         fields = '__all__'
@@ -56,10 +60,6 @@ class Page5Serializer(serializers.ModelSerializer):
         fields = ['heartrate', 'dailySteps', 'sleepDisorder']
 
 class UserSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='user.username')
-    first_name = serializers.CharField(source='user.first_name')
-    last_name = serializers.CharField(source='user.last_name')
-    email = serializers.EmailField(source='user.email')
     class Meta:
         model = User
         fields = ['id', 'first_name', 'last_name', 'email', 'username', 'password']

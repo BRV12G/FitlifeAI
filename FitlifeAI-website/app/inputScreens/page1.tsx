@@ -229,7 +229,68 @@ import {
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useUser } from "@/contexts/userContext";
 import { axiosWithAuth } from "@/app/utils/api";
+import { useEffect } from "react";
+import axios from "axios";
 
+// const GenderAgeOccupationScreen = () => {
+//   const { userInfo, updateUserInfo } = useUser();
+//   const [gender, setGender] = useState(userInfo.gender || "");
+//   const [age, setAge] = useState(userInfo.age || "");
+//   const [occupation, setOccupation] = useState(userInfo.occupation || "");
+//   const [physicalActivity, setPhysicalActivity] = useState(
+//     userInfo.physicalActivity || ""
+//   );
+
+//   const [username, setUsername] = useState("");
+
+//   useEffect(() => {
+//     const fetchUsername = async () => {
+//       try {
+//         const response = await axiosWithAuth.get("/api/user-profile/");
+//         setUsername(response.data.username); // adjust key if your backend uses a different name
+//       } catch (error) {
+//         console.error("Failed to fetch username:", error);
+//       }
+//     };
+
+//     fetchUsername();
+
+//   // const { username } = useLocalSearchParams();
+//   // const router = useRouter();
+
+//   const handleNext = async () => {
+//     if (!gender || !age || !occupation || !physicalActivity) {
+//       alert("Please fill all fields!");
+//       return;
+//     }
+
+//     const userData = {
+//       gender,
+//       age: Number(age),
+//       occupation,
+//       physical_activity: physicalActivity,
+//     };
+
+//     try {
+//       const api = await axiosWithAuth();
+//       const response = await api.post("/api/user-input/page1/", userData);
+
+//       if (response.status === 200) {
+//         updateUserInfo(userData); // Save in context
+//         router.push({
+//           pathname: "/inputScreens/page2",
+//           params: {
+//             username,
+//           },
+//         });
+//       } else {
+//         alert("Failed to save data");
+//       }
+//     } catch (error: any) {
+//       console.error("Error saving data:", error);
+//       alert("Error: " + (error.response?.data?.detail || error.message));
+//     }
+//   };
 const GenderAgeOccupationScreen = () => {
   const { userInfo, updateUserInfo } = useUser();
   const [gender, setGender] = useState(userInfo.gender || "");
@@ -239,8 +300,23 @@ const GenderAgeOccupationScreen = () => {
     userInfo.physicalActivity || ""
   );
 
-  const { username } = useLocalSearchParams();
+  const [username, setUsername] = useState("");
+
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      try {
+        const api = await axiosWithAuth();
+        const response = await api.get("/api/username/");
+        setUsername(response.data.username); // Adjust key if needed
+      } catch (error) {
+        console.error("Failed to fetch username:", error);
+      }
+    };
+
+    fetchUsername();
+  }, []);
 
   const handleNext = async () => {
     if (!gender || !age || !occupation || !physicalActivity) {
@@ -270,12 +346,11 @@ const GenderAgeOccupationScreen = () => {
       } else {
         alert("Failed to save data");
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error saving data:", error);
       alert("Error: " + (error.response?.data?.detail || error.message));
     }
   };
-
   return (
     <ScrollView style={styles.container}>
       {/* Background Image */}

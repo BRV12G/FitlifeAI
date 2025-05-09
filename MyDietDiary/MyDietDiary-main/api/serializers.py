@@ -17,11 +17,40 @@ class RecommendationSerializer(serializers.Serializer):
     bmi = serializers.FloatField()
     bmi_info = serializers.CharField()
 
-class UserProfileInputSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
+    # username = serializers.CharField(source='user.username')
+    # first_name = serializers.CharField(source='user.first_name')
+    # last_name = serializers.CharField(source='user.last_name')
+    # email = serializers.EmailField(source='user.email')
     class Meta:
-        model = UserProfileInput
-        fields = '__all__'
-        read_only_fields = ['user']
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'email', 'username', 'password']
+        extra_kwargs = {
+            'password': {'write_only': True}}
+        
+    def create(self, validated_data):
+        user = User(
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
+            email=validated_data['email'],
+            username=validated_data['username'],
+        )
+        user.set_password(validated_data['password'])  # Hash password
+        user.save()
+        return user
+
+class UserDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'email', 'username']
+
+class UserProfileInputSerializer(serializers.ModelSerializer):
+    user = UserDataSerializer(read_only=True)
+
+    class Meta:
+         model = UserProfileInput
+         fields = '__all__'
+         read_only_fields = ['user']
 
 class Page1Serializer(serializers.ModelSerializer):
     class Meta:
@@ -54,24 +83,6 @@ class Page5Serializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfileInput
         fields = ['heartrate', 'dailySteps', 'sleepDisorder']
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'first_name', 'last_name', 'email', 'username', 'password']
-        extra_kwargs = {
-            'password': {'write_only': True}}
-        
-    def create(self, validated_data):
-        user = User(
-            first_name=validated_data['first_name'],
-            last_name=validated_data['last_name'],
-            email=validated_data['email'],
-            username=validated_data['username'],
-        )
-        user.set_password(validated_data['password'])  # Hash password
-        user.save()
-        return user
     
 
 class FitnessDataSerializer(serializers.ModelSerializer):

@@ -135,13 +135,17 @@ const SignUp = () => {
 
     // Send form data to your Django backend
     try {
-      const response = await axios.post("http://localhost:8000/api/signup/", {
-        first_name: firstName,
-        last_name: lastName,
-        email: email,
-        username: username,
-        password: password,
-      });
+      const response = await axios.post(
+        "http://localhost:8000/api/signup/", //browser
+        //const response = await axios.post("http://192.168.1.44:8000/api/signup", //mobile
+        {
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
+          username: username,
+          password: password,
+        }
+      );
 
       console.log("Signup successful:", response.data);
       Alert.alert("Success", "You have signed up successfully!");

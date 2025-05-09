@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import login_user, signup_view, Page1View, Page2View, Page3View, Page4View, Page5View, recommendations, generate_fitness_plan
+from .views import login_user, signup_view, Page1View, Page2View, Page3View, Page4View, Page5View, recommendations, generate_fitness_plan, username, user_profile
 from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
@@ -15,4 +15,6 @@ urlpatterns = [
     path('user-input/page4/', Page4View.as_view(), name='page4'),
     path('user-input/page5/', Page5View.as_view(), name='page5'),
     path('fitness/', generate_fitness_plan, name='fitness'),
+    path('username/', username, name='username'),
+    path('user-profile/', user_profile, name= 'user-profile')
 ]

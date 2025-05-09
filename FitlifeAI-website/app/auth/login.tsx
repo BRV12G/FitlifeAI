@@ -24,19 +24,24 @@ const Login = () => {
     if (!emailOrUsername || !password) {
       Alert.alert("Error", "Please enter your credentials.");
       return;
+      ("http://192.168.1.44:8000");
     }
 
     try {
-      const response = await fetch("http://localhost:8000/api/login/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: emailOrUsername,
-          password: password,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:8000/api/login/", //browser
+        //const response = await fetch("http://192.168.1.44:8000/api/login/", //mobile
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: emailOrUsername,
+            password: password,
+          }),
+        }
+      );
 
       const data = await response.json();
       if (response.ok) {

@@ -57,7 +57,7 @@ const ProfileScreen = () => {
           <Text style={styles.label}>
             Name:{" "}
             <Text style={styles.value}>
-              {userInfo.firstName} {userInfo.lastName}
+              {userInfo.user.firstName} {userInfo.lastName}
             </Text>
           </Text>
           <Text style={styles.label}>

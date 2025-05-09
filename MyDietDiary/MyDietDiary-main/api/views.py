@@ -347,3 +347,21 @@ def user_profile(request):
     serializer = UserProfileInputSerializer(profile)
     print(serializer.data)
     return Response(serializer.data)
+
+class EditUserProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user_profile = UserProfileInput.objects.get(user=request.user)  # Assuming user is linked to UserProfile
+        serializer = UserProfileInputSerializer(user_profile)
+        print(serializer.data)
+        return Response(serializer.data)
+
+    def put(self, request):
+        user_profile = UserProfileInput.objects.get(user=request.user)
+        serializer = UserProfileInputSerializer(user_profile, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)

@@ -1,22 +1,28 @@
-// app/home/components/NavbarScreen.tsx
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking } from 'react-native';
 import { Link } from 'expo-router';
 
 const sections = [
   { title: 'Check Your Health Status', route: '/health-status-result/healthStatus' },
-  { title: 'Checkout Your Nutritional Needs', route: '/nutritional-needs/Nutrition' },
+  { title: 'Checkout Your Nutritional Needs', route: '/nutritional-needs/FoodRecommendations' },
   { title: 'Checkout Your Fitness Needs and Routine', route: '/fitness-routine' },
   { title: 'Chat with Your AI-Bot', route: '/chatbot' },
   { title: 'Plan a Diet', route: '/diet-planner' },
-  { title: 'Calculate Your BMI', route: '/bmi-calculator' },
-  { title: 'Calculate Your Body Fat Percentage', route: '/body-fat-calculator' },
+  { title: 'Calculate Your BMI', route: '/bmi/BmiCalculator' },
+  { title: 'Calculate Your Body Fat Percentage', route: '/body-fat-calculator/BodyFatCalculator' },
 ];
 
+const externalLink = 'https://fitlifeai-voice-assistant.vercel.app/';
+
 const NavbarScreen = () => {
+  const openExternalLink = () => {
+    Linking.openURL(externalLink);
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.heading}>Welcome to FitLifeAI</Text>
+
       {sections.map((section, index) => (
         <Link href={section.route} key={index} style={styles.card} asChild>
           <View>
@@ -24,6 +30,11 @@ const NavbarScreen = () => {
           </View>
         </Link>
       ))}
+
+      {/* External Voice Assistant Link */}
+      <TouchableOpacity style={styles.card} onPress={openExternalLink}>
+        <Text style={styles.cardText}> Talk with Your FitLifeAI Voice Assistant</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };

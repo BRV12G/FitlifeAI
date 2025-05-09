@@ -3,6 +3,7 @@ import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import HeroSection from '@/app/home/components/heroSection';
 import CoreFeatures from './components/features';
+import VoiceAssistantPromo from './components/VoiceAssistant';
 
 // tip of the day
 //accordian for faqs 
@@ -13,7 +14,11 @@ const HomePage = () => {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
         <HeroSection />
+
         <CoreFeatures />
+        <VoiceAssistantPromo />
+
+
         {/* Add more components below, like features, testimonials, etc. */}
       </ScrollView>
     </SafeAreaView>

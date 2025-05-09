@@ -345,4 +345,5 @@ def username(request):
 def user_profile(request):
     profile = get_object_or_404(UserProfileInput, user=request.user)
     serializer = UserProfileInputSerializer(profile)
+    print(serializer.data)
     return Response(serializer.data)

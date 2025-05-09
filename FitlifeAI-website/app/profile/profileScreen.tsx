@@ -21,6 +21,7 @@ const ProfileScreen = () => {
       try {
         const api = await axiosWithAuth();
         const response = await api.get("/api/user-profile/");
+        console.log(response.data);
         setUserInfo(response.data);
       } catch (error) {
         console.error("Error fetching profile:", error);
@@ -50,21 +51,21 @@ const ProfileScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{userInfo.username}'s Profile</Text>
+      <Text style={styles.title}>{userInfo.user.username}'s Profile</Text>
 
       <View style={styles.topSection}>
         <View style={styles.details}>
           <Text style={styles.label}>
             Name:{" "}
             <Text style={styles.value}>
-              {userInfo.user.firstName} {userInfo.lastName}
+              {userInfo.user.first_name} {userInfo.user.last_name}
             </Text>
           </Text>
           <Text style={styles.label}>
-            Username: <Text style={styles.value}>{userInfo.username}</Text>
+            Username: <Text style={styles.value}>{userInfo.user.username}</Text>
           </Text>
           <Text style={styles.label}>
-            Email: <Text style={styles.value}>{userInfo.email}</Text>
+            Email: <Text style={styles.value}>{userInfo.user.email}</Text>
           </Text>
           <Text style={styles.label}>
             Age: <Text style={styles.value}>{userInfo.age}</Text>
@@ -108,17 +109,17 @@ const ProfileScreen = () => {
         </Text>
         <Text style={styles.label}>
           Blood Pressure:{" "}
-          <Text style={styles.value}>{userInfo.bloodPressureCategory}</Text>
+          <Text style={styles.value}>{userInfo.bp_category}</Text>
         </Text>
         <Text style={styles.label}>
-          Heart Rate: <Text style={styles.value}>{userInfo.heartrate}</Text>
+          Heart Rate: <Text style={styles.value}>{userInfo.heart_rate}</Text>
         </Text>
         <Text style={styles.label}>
-          Daily Steps: <Text style={styles.value}>{userInfo.dailySteps}</Text>
+          Daily Steps: <Text style={styles.value}>{userInfo.daily_steps}</Text>
         </Text>
         <Text style={styles.label}>
           Sleep Disorder:{" "}
-          <Text style={styles.value}>{userInfo.sleepDisorder}</Text>
+          <Text style={styles.value}>{userInfo.sleep_disorder}</Text>
         </Text>
       </View>
     </View>

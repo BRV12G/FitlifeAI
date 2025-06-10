@@ -11,7 +11,7 @@ from .models import UserProfileInput
 from .serializers import UserProfileInputSerializer, Page1Serializer, Page2Serializer, Page3Serializer, Page4Serializer, Page5Serializer
 from django.contrib.auth.models import User
 from rest_framework.authentication import TokenAuthentication
-from .fitness_plan_generator import generate_fitness_plan
+from .fitness_plan_generator import fitness_plan
 from recommender.functions import Weight_Loss, Weight_Gain, Healthy  # Import functions
 
 # @api_view(['POST'])
@@ -260,6 +260,7 @@ def recommendations(request):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def generate_fitness_plan(request):
+    print("DATA", request.data)
     user = request.user
 
     # Get stored health data for the authenticated user
@@ -279,12 +280,13 @@ def generate_fitness_plan(request):
 
     # Get frontend-provided inputs
     injury = request.data.get("injury", "")
-    workout_pref = request.data.get("workoutPreference", "")
+    workout_pref = request.data.get("workout_preference", "")
     goal = request.data.get("goal", "")
-    weight_goal = request.data.get("weightGoal", "")
+    weight_goal = request.data.get("weight_goal", "")
 
     serializer = FitnessDataSerializer(data=request.data, context={"request": request})
     if not serializer.is_valid():
+        print("Serializer errors:", serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     fitness_data = serializer.save()
@@ -295,10 +297,10 @@ def generate_fitness_plan(request):
             {"error": "Please provide all required fields."},
             status=status.HTTP_400_BAD_REQUEST
         )
-
+    
     # Call your AI model or rule-based logic
     try:
-        recommendation = generate_fitness_plan(
+        recommendation = fitness_plan(
             age, weight, height, gender,
             injury, workout_pref, goal, weight_goal
         )

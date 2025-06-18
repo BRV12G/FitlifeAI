@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Linking } from 'react-native';
 import { RelativePathString, useRouter } from 'expo-router';
 import {  usePathname  } from 'expo-router';
 
@@ -13,9 +13,11 @@ const Footer = () => {
 
   const tabs = [
     {
-      label: 'ChatBot',
+      label: 'VoiceAgent',
       icon: require('../assets/Footer-svg/chatbot.svg'),
-      route: '/chatbot',
+      external: true,
+      url: 'https://fitlifeai-voice-assistant.vercel.app/',
+
     },
     {
       label: 'Nutrition',
@@ -30,7 +32,7 @@ const Footer = () => {
     {
       label: 'Fitness',
       icon: require('../assets/Footer-svg/exercise.svg'),
-      route: '/fitness',
+      route: '/fitness/fitnessrecs',
     },
     {
       label: 'Profile',
@@ -39,13 +41,24 @@ const Footer = () => {
     },
   ];
 
+
+  const handlePress = (tab: any) => {
+    if (tab.external) {
+      Linking.openURL(tab.url);
+    } else {
+      router.push(tab.route as RelativePathString);
+    }
+  };
+
   return (
     <View style={styles.container}>
       {tabs.map((tab, index) => (
         <TouchableOpacity
           key={index}
           style={styles.tab}
-          onPress={() => router.push(tab.route as RelativePathString)}
+          // onPress={() => router.push(tab.route as RelativePathString)}
+          onPress={() => handlePress(tab)}
+
         >
           <Image source={tab.icon} style={styles.icon} resizeMode="contain" />
           <Text style={styles.label}>{tab.label}</Text>

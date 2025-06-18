@@ -25,7 +25,7 @@ client = InferenceClient(
     token=HF_TOKEN
 )
 
-def generate_fitness_plan(user_data):
+def fitness_plan(age, weight, height, gender, injury, workout_preference, goal, weight_goal):
     """
     Generates a personalized fitness plan using a Hugging Face LLM.
     :param user_data: dict with keys: age, weight, height, gender, injury, workout_preference, goal, weight_goal
@@ -35,14 +35,14 @@ def generate_fitness_plan(user_data):
     You are a fitness expert assistant. Using the dataset knowledge, create a customized exercise recommendation plan.
 
     User Profile:
-    - Age: {user_data['age']}
-    - Weight: {user_data['weight']} kg
-    - Height: {user_data['height']} cm
-    - Gender: {user_data['gender']}
-    - Injury Info: {user_data['injury']}
-    - Workout Preference: {user_data['workout_preference']}
-    - Workout Goal: {user_data['goal']}
-    - Weight Goal: {user_data['weight_goal']}
+    - Age: {age}
+    - Weight: {weight} kg
+    - Height: {height} cm
+    - Gender: {gender}
+    - Injury Info: {injury}
+    - Workout Preference: {workout_preference}
+    - Workout Goal: {goal}
+    - Weight Goal: {weight_goal}
 
     Based on this, provide the following:
     1. Personalized Workout Plan

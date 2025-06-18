@@ -40,7 +40,7 @@ class FitnessData(models.Model):
     injury = models.CharField(max_length=255, blank=True)
     workout_preference = models.CharField(max_length=255)
     goal = models.CharField(max_length=255)
-    weight_goal = models.CharField(max_length=255)
+    weight_goal = models.IntegerField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

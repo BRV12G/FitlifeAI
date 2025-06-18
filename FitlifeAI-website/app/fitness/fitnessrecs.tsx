@@ -122,9 +122,9 @@ import { axiosWithAuth } from "@/app/utils/api";
 const FitnessScreen = () => {
   const [formData, setFormData] = useState({
     injury: "",
-    workoutPreference: "",
+    workout_preference: "",
     goal: "",
-    weightGoal: "",
+    weight_goal: null,
   });
 
   const [loading, setLoading] = useState(false);

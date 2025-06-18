@@ -222,10 +222,10 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Picker,
   Image,
   ScrollView,
 } from "react-native";
+import { Picker } from '@react-native-picker/picker';
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useUser } from "@/contexts/userContext";
 import { axiosWithAuth } from "@/app/utils/api";
@@ -405,8 +405,8 @@ const GenderAgeOccupationScreen = () => {
         <Text style={styles.label}>Let's talk about your physical vibe!</Text>
         <Picker
           style={styles.input}
-          value={physicalActivity}
-          onChangeText={setPhysicalActivity}
+          selectedValue={physicalActivity}
+          onValueChange={setPhysicalActivity}
         >
           <Picker.Item
             label="Select Physical Activity"

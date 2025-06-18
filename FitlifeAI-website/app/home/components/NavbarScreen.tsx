@@ -4,10 +4,10 @@ import { Link } from 'expo-router';
 
 const sections = [
   { title: 'Check Your Health Status', route: '/health-status-result/healthStatus' },
-  { title: 'Checkout Your Nutritional Needs', route: '/nutritional-needs/FoodRecommendations' },
-  { title: 'Checkout Your Fitness Needs and Routine', route: '/fitness-routine' },
-  { title: 'Chat with Your AI-Bot', route: '/chatbot' },
-  { title: 'Plan a Diet', route: '/diet-planner' },
+  { title: 'Checkout Your Nutritional Needs', route: '/nutritional-needs/NutritionCalculatorScreen' },
+  { title: 'Checkout Your Fitness Needs and Routine', route: '/fitness/fitnessrecs' },
+//   { title: 'Chat with Your AI-Bot', route: '/chatbot' },
+  { title: 'Plan a Diet', route: '/nutritional-needs/FoodRecommendations' },
   { title: 'Calculate Your BMI', route: '/bmi/BmiCalculator' },
   { title: 'Calculate Your Body Fat Percentage', route: '/body-fat-calculator/BodyFatCalculator' },
 ];

@@ -61,10 +61,15 @@ const RecommendationScreen = () => {
           Curated meals based on your health profile
         </Text>
       </View>
+ <View style={styles.imageContainer}>
+      <View style={styles.image}>
+        <Image source={require('@/assets/nutritients/girl_eating.png')} style={styles.image} />
+      </View>
 
       <TouchableOpacity style={styles.fetchButton} onPress={fetchRecommendations}>
         <Text style={styles.fetchButtonText}>🎯 Get My Recommendations</Text>
       </TouchableOpacity>
+      </View>
 
       {loading && <ActivityIndicator size="large" color="#3A7CA5" style={{ marginTop: 20 }} />}
 
@@ -253,7 +258,18 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     // marginRight: 8,
-  }
+  },
+  image: {
+    width: 80,
+    height: 140,
+    borderRadius: 12,
+    marginBottom: 10, 
+  },
+  imageContainer: {
+    alignItems: "center",
+    flexDirection: "row", width: "45%",
+    justifyContent: "between",
+  },
 });
 
 export default RecommendationScreen;

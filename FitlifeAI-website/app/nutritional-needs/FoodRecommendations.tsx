@@ -269,6 +269,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row", width: "45%",
     justifyContent: "between",
+    gap: "10%"
   },
 });
 

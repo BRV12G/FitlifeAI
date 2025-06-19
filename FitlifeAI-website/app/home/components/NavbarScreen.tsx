@@ -10,6 +10,8 @@ const sections = [
   { title: 'Plan a Diet', route: '/nutritional-needs/FoodRecommendations' },
   { title: 'Calculate Your BMI', route: '/bmi/BmiCalculator' },
   { title: 'Calculate Your Body Fat Percentage', route: '/body-fat-calculator/BodyFatCalculator' },
+    { title: 'Plan A diet', route: '/dite-planner/dite-planner' },
+
 ];
 
 const externalLink = 'https://fitlifeai-voice-assistant.vercel.app/';

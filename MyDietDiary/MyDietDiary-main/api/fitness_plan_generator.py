@@ -64,7 +64,7 @@ def fitness_plan(age, weight, height, gender, injury, workout_preference, goal, 
                 {"role": "system", "content": "You are a fitness assistant that provides helpful, customized workout recommendations."},
                 {"role": "user", "content": prompt}
             ],
-            max_tokens=700,
+            max_tokens=2048,
             stream=False
 
         )

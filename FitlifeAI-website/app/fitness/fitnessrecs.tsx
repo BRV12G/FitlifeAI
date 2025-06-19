@@ -115,6 +115,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   StyleSheet,
+  Image,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { axiosWithAuth } from "@/app/utils/api";
@@ -124,7 +125,7 @@ const FitnessScreen = () => {
     injury: "",
     workout_preference: "",
     goal: "",
-    weight_goal: null,
+    weight_goal: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -152,10 +153,22 @@ const FitnessScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>💪 Personalized Fitness Planner</Text>
+      <View style={{ flexDirection: "row", justifyContent: "left", marginBottom: 20, gap: "1%", alignItems: "center", left:0 }}>
+        <Image source={require('@/assets/fitness/girl4.png')} style={styles.Titleimage} />
+        <Text style={styles.title}> Fitness Planner</Text>
+
+      
+      </View>
       <Text style={styles.subtitle}>
         Tell us your goals, and we’ll craft a custom workout plan for you!
       </Text>
+      
+
+      <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 20, gap: "1%"}}>
+        <Image source={require('@/assets/fitness/girl2.png')} style={styles.image} />
+                <Image source={require('@/assets/fitness/girl1.png')} style={styles.image} />
+        <Image source={require('@/assets/fitness/girl3.png')} style={styles.image} />
+      </View>
 
       {Object.entries(formData).map(([key, value]) => (
         <TextInput
@@ -172,13 +185,14 @@ const FitnessScreen = () => {
         <ActivityIndicator size="large" color="#3A7CA5" />
       ) : (
         <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-          <Text style={styles.submitText}>🚀 Generate Plan</Text>
+          <Image source={require('@/assets/fitness/plan.png')} style={styles.GenerateImage}/>
+          <Text style={styles.submitText}> Generate Plan</Text>
         </TouchableOpacity>
       )}
 
       {recommendation !== "" && (
         <LinearGradient colors={["#e0f7fa", "#b2ebf2"]} style={styles.resultBox}>
-          <Text style={styles.resultTitle}>🎯 Your Fitness Plan</Text>
+          <Text style={styles.resultTitle}> Your Fitness Plan</Text>
           <Text style={styles.resultText}>{recommendation}</Text>
         </LinearGradient>
       )}
@@ -192,7 +206,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f9fcff",
   },
   title: {
-    fontSize: 26,
+    fontSize: 35,
     fontWeight: "bold",
     color: "#3A7CA5",
     textAlign: "center",
@@ -219,14 +233,16 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     backgroundColor: "#3A7CA5",
-    padding: 14,
+    padding: 4,
     borderRadius: 10,
     alignItems: "center",
     marginTop: 10,
+    flexDirection: "row",
+    justifyContent: "center",
   },
   submitText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 26,
     fontWeight: "600",
   },
   resultBox: {
@@ -247,6 +263,33 @@ const styles = StyleSheet.create({
   resultText: {
     fontSize: 16,
     color: "#333",
+    lineHeight: 24,
+    marginBottom: 8,
+    
+  },
+  image: {
+    width: 100,
+    height: 140,
+    borderRadius: 40,
+    // marginHorizontal: 5,
+    // borderWidth: 2,
+    // borderColor: "#3A7CA5",
+  },
+   Titleimage: {
+    width: 50,
+    height: 50,
+    borderRadius: 40,
+    marginHorizontal: 5,
+    borderWidth: 2,
+    borderColor: "#3A7CA5",
+  },
+  GenerateImage: {
+    width: 50,
+    height: 50,
+    // borderRadius: 40,
+    marginHorizontal: 5,
+    borderWidth: 2,
+    borderColor: "#3A7CA5",
   },
 });
 

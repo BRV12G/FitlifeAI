@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
-import { useUser } from "@/contexts/userContext";
+import { useUser } from "../contexts/userContext";
 
 const HealthStatus = () => {
   const { userInfo } = useUser();

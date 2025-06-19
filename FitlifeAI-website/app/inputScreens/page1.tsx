@@ -227,7 +227,7 @@ import {
 } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useUser } from "@/contexts/userContext";
+import { useUser } from "../contexts/userContext";
 import { axiosWithAuth } from "@/app/utils/api";
 import { useEffect } from "react";
 import axios from "axios";

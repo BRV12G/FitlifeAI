@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useUser } from "@/contexts/userContext";
+import { useUser } from "../contexts/userContext";
 import { axiosWithAuth } from "../utils/api";
 
 const sleepDisorderOptions = ["None", "Insomnia", "Sleep Apnea", "Narcolepsy"];

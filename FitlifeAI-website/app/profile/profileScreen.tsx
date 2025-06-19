@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { useUser } from "@/contexts/userContext";
+import { useUser } from "../contexts/userContext";
 import { Router, useRouter } from "expo-router";
 import { axiosWithAuth } from "../utils/api";
 

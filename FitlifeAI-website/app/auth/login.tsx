@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { useUser } from "@/contexts/userContext";
+import { useUser } from "../contexts/userContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = () => {

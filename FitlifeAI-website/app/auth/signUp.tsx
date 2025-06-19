@@ -102,7 +102,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 //import api from "./utils/api";
 import axios from "axios"; // Import axios
-import { useUser } from "@/contexts/userContext"; // <-- Import context
+import { useUser } from "../contexts/userContext"; // <-- Import context
 
 const SignUp = () => {
   // Form state

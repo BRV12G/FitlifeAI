@@ -188,7 +188,7 @@ import {
   Image,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useUser } from "@/contexts/userContext";
+import { useUser } from "../contexts/userContext";
 import { axiosWithAuth } from "@/app/utils/api";
 
 const SleepScreen = () => {

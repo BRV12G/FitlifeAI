@@ -1,6 +1,6 @@
 import { Slot } from 'expo-router';
 import { SafeAreaView } from 'react-native';
-import { UserProvider } from '@/contexts/userContext';
+import { UserProvider } from '../app/contexts/userContext';
 import Footer from '@/components/Footer'; // Adjust path based on your project
 import Header from '@/components/Header';
 

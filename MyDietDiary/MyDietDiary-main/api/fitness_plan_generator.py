@@ -22,7 +22,10 @@ nlp = spacy.load('en_core_web_sm')
 HF_TOKEN = os.getenv("HF_TOKEN")
 client = InferenceClient(
     "mistralai/Mistral-Nemo-Instruct-2407",
-    token=HF_TOKEN
+    token=HF_TOKEN,
+    provider="auto",
+    
+    
 )
 
 def fitness_plan(age, weight, height, gender, injury, workout_preference, goal, weight_goal):
@@ -45,7 +48,7 @@ def fitness_plan(age, weight, height, gender, injury, workout_preference, goal, 
     - Weight Goal: {weight_goal}
 
     Based on this, provide the following:
-    1. Personalized Workout Plan
+    1. Personalized Workout Plan in detail for the user according to their inputs
     2. Workout Frequency and Duration per Week
     3. Recommended Exercise Set (e.g., Full Body: 10 Pushups, 20 sec Plank, etc.)
     4. Sample Weekly Workout Schedule (e.g., Chest on Day 1, Shoulders on Day 2, etc.)
@@ -63,7 +66,10 @@ def fitness_plan(age, weight, height, gender, injury, workout_preference, goal, 
             ],
             max_tokens=700,
             stream=False
+
         )
+
+        print(response);
 
         return response.choices[0].message.content.strip()
 

@@ -6,10 +6,12 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
+  ScrollView
 } from "react-native";
 import { useUser } from "../../contexts/userContext";
 import { Router, useRouter } from "expo-router";
 import { axiosWithAuth } from "../utils/api";
+// import { ScrollView } from "react-native-reanimated/lib/typescript/Animated";
 
 const ProfileScreen = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -50,11 +52,13 @@ const ProfileScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.title}>{userInfo.user.username}'s Profile</Text>
 
       <View style={styles.topSection}>
         <View style={styles.details}>
+                  <Text style={styles.sectionTitle}>Profile Summary</Text>
+
           <Text style={styles.label}>
             Name:{" "}
             <Text style={styles.value}>
@@ -97,7 +101,16 @@ const ProfileScreen = () => {
         </TouchableOpacity>
       </View>
 
+      {/* <Text style={styles.sectionTitle}>Health Information</Text> */}
+
+      <View style={styles.healthInfoSection}>
+      <Image
+          source={require("@/assets/images/profile/girl1.png")}
+          style={styles.avatar2}
+        />
       <View style={styles.healthInfo}>
+              <Text style={styles.sectionTitle}>Health Information</Text>
+
         <Text style={styles.label}>
           Height: <Text style={styles.value}>{userInfo.height}</Text>
         </Text>
@@ -122,7 +135,8 @@ const ProfileScreen = () => {
           <Text style={styles.value}>{userInfo.sleep_disorder}</Text>
         </Text>
       </View>
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -132,12 +146,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e6f0fa",
-    padding: 10,
+    padding: 2,
   },
   title: {
-    fontSize: 32,
+    fontSize: 34,
     fontWeight: "bold",
-    //   marginBottom: 20,
+      marginBottom: 10,
     color: "#2980b9",
     textAlign: "center",
   },
@@ -145,61 +159,108 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     //   marginBottom: 2,
-    marginTop: 20,
+    // marginTop: 20,
     justifyContent: "space-between",
     flexWrap: "wrap",
   },
   avatar: {
     width: 160,
     height: 250,
+     borderRadius: 16,
+  // borderWidth: 2,
+  // borderColor: "#6ca0dc",
     //   resizeMode: 'contain',
     //   marginRight: 1,
   },
   details: {
     flex: 1,
-    flexShrink: 1,
-    marginLeft: 10,
-    marginRight: 10,
-    borderColor: "#6ca0dc",
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 10,
+  flexShrink: 1,
+  marginHorizontal: 10,
+  backgroundColor: "#fff",
+  borderRadius: 12,
+  padding: 15,
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.1,
+  shadowRadius: 4,
+  elevation: 3,
   },
   healthInfo: {
     marginTop: 20,
-    marginBottom: 5,
-    borderColor: "#6ca0dc",
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 10,
+  backgroundColor: "#fff",
+  borderRadius: 12,
+  padding: 15,
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.1,
+  shadowRadius: 4,
+  elevation: 3,
   },
   label: {
-    fontWeight: "bold",
+    fontWeight: "600",
     marginBottom: 6,
     color: "#6ca0dc",
+    fontSize: 16,
   },
   value: {
-    fontWeight: "normal",
+    fontWeight: "400",
     color: "#1f3a93",
+    fontSize: 16,
   },
   buttonContainer: {
-    marginTop: 20,
+    // marginTop: 20,
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
   },
   button: {
-    backgroundColor: "#1a73e8",
-    padding: 10,
-    borderRadius: 8,
-    marginTop: 10,
-    width: "50%",
+     backgroundColor: "#1a73e8",
+  paddingVertical: 12,
+  paddingHorizontal: 20,
+  borderRadius: 12,
+  marginTop: 10,
+  width: "70%",
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.2,
+  shadowRadius: 4,
+  elevation: 3,
   },
   secondaryButton: {
     backgroundColor: "#4a90e2",
   },
   buttonText: {
     color: "#fff",
+  textAlign: "center",
+  fontSize: 16,
+  fontWeight: "600",
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#2980b9",
+    // marginTop: 5,
+    marginBottom: 10,
     textAlign: "center",
+
+  },
+  healthInfoSection: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+      marginBottom: 2,
+    marginTop: 10,
+    flexWrap: "wrap",
+    gap: 5
+  },
+  avatar2: {
+    width: 160,
+    height: 270,
+    // marginRight: 10,
+    marginLeft:0,
+    // borderRadius: 16,
+  // borderWidth: 2,
+  // borderColor: "#6ca0dc",
+    //   resizeMode: 'contain',
+    //   marginRight: 1,
   },
 });

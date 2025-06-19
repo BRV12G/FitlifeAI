@@ -45,10 +45,10 @@ const RecommendationScreen = () => {
       >
         {/* <Image source={{ uri: item.image_url }} style={styles.foodImage} /> */}
         <Text style={styles.foodName}>{item.name}</Text>
-        <Text>🍽 Calories: {item.calories}</Text>
-        <Text>💪 Protein: {item.protein}g</Text>
-        <Text>🥑 Fat: {item.fat}g</Text>
-        <Text>🍞 Carbs: {item.carbs}g</Text>
+        <View style={styles.proteinContainer}><Image source={require('@/assets/nutritients/calories.png')} style={styles.proteinIcon}/><Text> Calories: {item.calories}</Text></View>
+        <View style={styles.proteinContainer}><Image source={require('@/assets/nutritients/eggs.png')} style={styles.proteinIcon}/><Text> Protein: {item.protein}g</Text></View>
+        <View style={styles.proteinContainer}><Image source={require('@/assets/nutritients/fats.png')} style={styles.proteinIcon}/><Text> Fat: {item.fat}g</Text></View>
+        <View style={styles.proteinContainer}><Image source={require('@/assets/nutritients/carbs.png')} style={styles.proteinIcon}/><Text> Crabs: {item.carbs}g</Text></View>
       </LinearGradient>
     ));
   };
@@ -56,7 +56,7 @@ const RecommendationScreen = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>🍎 Personalized Meal Plan</Text>
+        <Text style={styles.title}> Personalized Meal Plan</Text>
         <Text style={styles.subtitle}>
           Curated meals based on your health profile
         </Text>
@@ -76,7 +76,8 @@ const RecommendationScreen = () => {
           <Text style={styles.bmiInfo}> Your BMI is in a <Text style={styles.bmiRange}>{recommendations.bmi_info}</Text> Range</Text>
 
           {/* Breakfast Section */}
-          <Text style={styles.mealTitle}>🍳 Breakfast</Text>
+          <View style={styles.proteinContainer}><Image source={require('@/assets/nutritients/breakfast.png')} style={styles.mealIcon}/><Text style={styles.mealTitle}> Breakfast</Text></View>
+
           <View style={styles.mealContainerBreakfast}>{renderFood(recommendations.breakfast, expandedBreakfast)}</View>
           {recommendations.breakfast.length > 2 && (
             <TouchableOpacity 
@@ -91,7 +92,7 @@ const RecommendationScreen = () => {
 
           
           {/* Lunch Section */}
-          <Text style={styles.mealTitle}>🍱 Lunch</Text>
+          <View style={styles.proteinContainer}><Image source={require('@/assets/nutritients/meal.png')} style={styles.mealIcon}/><Text style={styles.mealTitle}> Lunch</Text></View>
           <View style={styles.mealContainerBreakfast}>{renderFood(recommendations.lunch, expandedLunch)}</View>
           {recommendations.lunch.length > 2 && (
             <TouchableOpacity 
@@ -106,7 +107,8 @@ const RecommendationScreen = () => {
 
           
           {/* Dinner Section */}
-          <Text style={styles.mealTitle}>🍲 Dinner</Text>
+          <View style={styles.proteinContainer}><Image source={require('@/assets/nutritients/dinner.png')} style={styles.mealIcon}/><Text style={styles.mealTitle}> Dinner</Text></View>
+
           <View style={styles.mealContainerBreakfast}>{renderFood(recommendations.dinner, expandedDinner)}</View>
           {recommendations.dinner.length > 2 && (
             <TouchableOpacity 
@@ -167,7 +169,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   mealTitle: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: "700",
     marginVertical: 12,
     color: "#3A7CA5",
@@ -187,6 +189,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "45%",
     marginRight: "2.5%",
+    
       },
   // foodImage: {
   //   width: "100%",
@@ -199,6 +202,9 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     marginBottom: 6,
     color: "#2e3a59",
+    justifyContent: "center",
+    fontStyle: "italic",
+
   },
   bmiInfo: {
     fontSize: 24,
@@ -213,7 +219,11 @@ const styles = StyleSheet.create({
   mealContainerBreakfast: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: "5%",},
+    gap: "5%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+  },
 
   viewMoreButton: {
     marginBottom: 5,
@@ -227,6 +237,23 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "600",
   },
+  proteinIcon : {
+    width: 20,
+    height: 20,
+    // marginRight: 8,
+  },
+  proteinContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 3,
+    marginTop: 3,
+
+  },
+  mealIcon: {
+    width: 30,
+    height: 30,
+    // marginRight: 8,
+  }
 });
 
 export default RecommendationScreen;

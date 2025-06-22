@@ -69,9 +69,10 @@ const Login = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image
-        source={require("@/assets/images/login/top.png")}
+        source={require("@/assets/images/login/girl.png")}
         style={styles.up_image}
       />
+     <View style={styles.loginContainer}>
       <Text style={styles.heading}>LOGIN</Text>
 
       <TextInput
@@ -107,9 +108,10 @@ const Login = () => {
           </Text>
         </Text>
       </View>
+      </View>
 
       <Image
-        source={require("@/assets/images/login/bottom.png")}
+        source={require("@/assets/images/login/girl2.png")}
         style={styles.bottom_image}
       />
     </ScrollView>
@@ -123,6 +125,10 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: 3,
+    borderColor: "#3A7CA5",
+    borderRadius: 10,
+    
   },
   heading: {
     fontSize: 26,
@@ -161,20 +167,37 @@ const styles = StyleSheet.create({
   loginText: {
     color: "#3A7CA5",
     fontWeight: "bold",
+    
   },
   up_image: {
     position: "absolute",
-    top: 0,
+    top: 70,
     left: 0,
     right: 0,
-    height: 200,
+    height: 300,
+    // resizeMode: "contain",
+    // opacity: 0.9,
+    width: 200,
+    marginBottom: 20,
   },
+  
   bottom_image: {
     position: "absolute",
-    bottom: 0,
-    left: 0,
+    bottom: 30,
+    // left: 0,
     right: 0,
-    height: 200,
+    height: 250,
+  },
+  loginContainer: {
+    width: "100%",
+    marginTop: 20,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
+    padding: 20,
   },
 });
 

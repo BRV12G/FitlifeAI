@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Image } from 'react-native';
 import { Link } from 'expo-router';
 
 const sections = [
@@ -10,7 +10,7 @@ const sections = [
   { title: 'Plan a Diet', route: '/nutritional-needs/FoodRecommendations' },
   { title: 'Calculate Your BMI', route: '/bmi/BmiCalculator' },
   { title: 'Calculate Your Body Fat Percentage', route: '/body-fat-calculator/BodyFatCalculator' },
-    { title: 'Plan A diet', route: '/dite-planner/dite-planner' },
+    // { title: 'Plan A diet', route: '/dite-planner/dite-planner' },
 
 ];
 
@@ -37,6 +37,8 @@ const NavbarScreen = () => {
       <TouchableOpacity style={styles.card} onPress={openExternalLink}>
         <Text style={styles.cardText}> Talk with Your FitLifeAI Voice Assistant</Text>
       </TouchableOpacity>
+
+      <Image source={require('@/assets/images/home-page/girl2.png')} style={styles.imagegirl} />
     </ScrollView>
   );
 };
@@ -53,7 +55,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#1E1E1E',
+    color: '#3A7CA5',
     textAlign: 'center',
   },
   card: {
@@ -70,5 +72,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#3A7CA5',
+  },
+  imagegirl: {
+    width: 200,
+    height: 200,
+    alignSelf: 'center',
+    // marginTop: 20,
   },
 });

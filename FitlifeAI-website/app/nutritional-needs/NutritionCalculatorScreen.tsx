@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Picker,
+  Image,
 } from "react-native";
 
 const activityLevels = [
@@ -141,13 +142,14 @@ const NutritionCalculatorScreen = () => {
           <Text>Fat: {result.fat} g</Text>
         </View>
       )}
+      <Image source={require('@/assets/nutritients/girl-nutrients.png')} style={styles.image}/>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: { padding: 20, backgroundColor: "#f9fafe" },
-  title: { fontSize: 24, fontWeight: "bold", marginBottom: 20, textAlign: "center" },
+  title: { fontSize: 24, fontWeight: "bold", marginBottom: 20, textAlign: "center", color: "#3A7CA5" },
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
@@ -201,6 +203,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 18,
     marginBottom: 8,
+  },
+  image: {
+    width: 150,
+    height: 220,
+    alignSelf: "center",
   },
 });
 

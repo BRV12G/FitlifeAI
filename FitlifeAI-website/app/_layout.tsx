@@ -10,7 +10,7 @@ export default function Layout() {
     <SafeAreaView style={{ flex: 1 }}>
       <Header />
           <UserProvider>
-      <Slot /> {/* 👈 Renders whatever route is active */}
+      <Slot /> {/*  Renders whatever route is active */}
       </UserProvider>
       <Footer />
     </SafeAreaView>

@@ -13,6 +13,23 @@ from django.contrib.auth.models import User
 from rest_framework.authentication import TokenAuthentication
 from .fitness_plan_generator import fitness_plan
 from recommender.functions import Weight_Loss, Weight_Gain, Healthy  # Import functions
+import pandas as pd
+import numpy as np
+import joblib
+import os
+
+# Absolute path to ml_models directory inside the API app
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_DIR = os.path.join(BASE_DIR, "ml_models")
+
+# Load models once (only when Django starts)
+regressor_pipeline = joblib.load(os.path.join(MODEL_DIR, "regressor_pipeline.pkl"))
+classifier_pipeline = joblib.load(os.path.join(MODEL_DIR, "classifier_pipeline.pkl"))
+le_health_status = joblib.load(os.path.join(MODEL_DIR, "le_health_status.pkl"))
+le_bmi_class = joblib.load(os.path.join(MODEL_DIR, "le_bmi_class.pkl"))
+
+
+
 
 # @api_view(['POST'])
 # def get_recommendations(request):
@@ -367,3 +384,84 @@ class EditUserProfileView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
+    
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+import pandas as pd
+import numpy as np
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def predict_health_status(request):
+    user = request.user
+
+    try:
+        profile = UserProfileInput.objects.get(user=user)
+    except UserProfileInput.DoesNotExist:
+        return Response({"error": "User data not found"}, status=404)
+
+    input_data = {
+        'Gender': profile.gender,
+        'Age': profile.age,
+        'Occupation': profile.occupation,
+        'Sleep Duration': profile.sleep_hours,
+        'Quality of Sleep': profile.quality_of_sleep,
+        'Activity Level': profile.physical_activity,
+        'Stress Level': profile.stress_level,
+        'Weight (kg)': profile.weight,
+        'Height (cm)': profile.height,
+        'Blood Pressure Category': profile.bp_category,
+        'Systolic': profile.systolic,
+        'Diastolic': profile.diastolic,
+        'Heart Rate': profile.heart_rate,
+        'Daily Steps': profile.daily_steps
+    }
+
+    df = pd.DataFrame([input_data])
+
+    numeric_columns = ['Age', 'Sleep Duration', 'Weight (kg)', 'Height (cm)',
+                       'Systolic', 'Diastolic', 'Heart Rate', 'Daily Steps']
+    df[numeric_columns] = df[numeric_columns].apply(pd.to_numeric, errors='coerce')
+
+    if df[numeric_columns].isnull().any().any():
+        return Response({"error": "Some numeric fields are missing or invalid."}, status=400)
+
+    # Ensure categorical fields are strings (avoid NaNs or unexpected types)
+    categorical_columns = ['Gender', 'Occupation', 'Quality of Sleep',
+                           'Activity Level', 'Stress Level', 'Blood Pressure Category']
+    df[categorical_columns] = df[categorical_columns].astype(str)
+
+    print("Prediction Input:\n", df)
+    print(df.dtypes)
+    print(df.head())
+    
+    try:
+        reg_pred = regressor_pipeline.predict(df)[0]
+        clf_pred = classifier_pipeline.predict(df)[0]
+
+        result = {
+            "health_status": le_health_status.inverse_transform([int(round(clf_pred[0]))])[0],
+            "bmi_class": le_bmi_class.inverse_transform([int(round(clf_pred[1]))])[0],
+            "bmi_value": round(reg_pred[0], 2),
+            "calories": round(reg_pred[1], 2),
+            "carbohydrates": round(reg_pred[2], 2),
+            "proteins": round(reg_pred[3], 2),
+            "fats": round(reg_pred[4], 2),
+            "vitamin_a": round(reg_pred[5], 2),
+            "vitamin_c": round(reg_pred[6], 2),
+            "vitamin_d": round(reg_pred[7], 2),
+            "sodium": round(reg_pred[8], 2),
+            "potassium": round(reg_pred[9], 2),
+            "magnesium": round(reg_pred[10], 2),
+            "iron": round(reg_pred[11], 2),
+            "zinc": round(reg_pred[12], 2),
+            "fiber": round(reg_pred[13], 2),
+            "water": round(reg_pred[14], 2),
+        }
+
+        return Response(result, status=200)
+
+    except Exception as e:
+        return Response({"error": f"Prediction failed: {str(e)}"}, status=500)

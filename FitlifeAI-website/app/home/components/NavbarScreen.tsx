@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Image } 
 import { Link } from 'expo-router';
 
 const sections = [
-  { title: 'Check Your Health Status', route: '/health-status-result/healthStatus' },
+  { title: 'Check Your Health Status', route: '/health-status-result/healthStatusScreen' },
   { title: 'Checkout Your Nutritional Needs', route: '/nutritional-needs/NutritionCalculatorScreen' },
   { title: 'Checkout Your Fitness Needs and Routine', route: '/fitness/fitnessrecs' },
 //   { title: 'Chat with Your AI-Bot', route: '/chatbot' },

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Linking,
+  Image,
 } from "react-native";
 
 const BMICalculator = () => {
@@ -54,9 +55,11 @@ const BMICalculator = () => {
 
   return (
     <View style={styles.container}>
+      <Image source={require('@/assets/bmi/bmi.png')} style={styles.image}/>
       <Text style={styles.title}>BMI Calculator</Text>
+      <Image source={require('@/assets/bmi/girl2.png')} style={styles.image2}/>
 
-      <Text style={styles.label}>Enter your weight (kg):</Text>
+      <View style={styles.inputBox}><Text style={styles.label}>Enter your weight (kg):</Text>
       <TextInput
         style={styles.input}
         placeholder="Weight in kg"
@@ -75,6 +78,7 @@ const BMICalculator = () => {
       <TouchableOpacity style={styles.button} onPress={calculateBMI}>
         <Text style={styles.buttonText}>Calculate BMI</Text>
       </TouchableOpacity>
+      </View>
 
       {bmi && (
         <View style={styles.resultBox}>
@@ -172,5 +176,32 @@ const styles = StyleSheet.create({
   ctaText: {
     color: "#fff",
     fontWeight: "600",
+  },
+  inputBox: {
+    marginBottom: 20,
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  image: {
+    position: "absolute",
+  top: 20,
+  left: 20,
+  width: 120,
+  height: 150,
+  zIndex: 1,
+  },
+  image2: {
+    position: "absolute",
+  top: 20,
+  right: 20,
+  width: 130,
+  height: 160,
+  zIndex: 1,
   },
 });

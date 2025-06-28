@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Switch,
+  Image
 } from "react-native";
 
 const BodyFatCalculator = () => {
@@ -80,8 +81,9 @@ const BodyFatCalculator = () => {
 
   return (
     <View style={styles.container}>
+      <Image source={require('@/assets/body-fat/girl.png')} style={styles.girl}/>
       <Text style={styles.title}>Body Fat Calculator</Text>
-
+    <View style={styles.inputContainer}>
       {/* Method Toggle */}
       <View style={styles.toggleContainer}>
         <Text style={styles.toggleLabel}>
@@ -163,6 +165,7 @@ const BodyFatCalculator = () => {
       <TouchableOpacity style={styles.button} onPress={calculateBodyFat}>
         <Text style={styles.buttonText}>Calculate</Text>
       </TouchableOpacity>
+      </View>
 
       {/* Result */}
       {bodyFat !== null && (
@@ -298,4 +301,19 @@ const styles = StyleSheet.create({
   radioText: {
     fontSize: 16,
   },
+  inputContainer: {
+    marginBottom: 20,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    padding: 12,
+
+  },
+  girl: {
+    position: "absolute",
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+    top:10,
+    left:10
+  }
 });

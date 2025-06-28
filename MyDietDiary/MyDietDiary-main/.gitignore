@@ -95,7 +95,6 @@ Desktop.ini
 
 # Other
 *.sqlite3
-*.pkl
 *.h5
 *.log
 *.pot

@@ -50,10 +50,8 @@
 //       if (error instanceof Error) alert("Error: " + error.message);
 //       else alert("Unknown error");
 //     }
-    
-//   };
 
-  
+//   };
 
 //   return (
 //     <View style={styles.container}>
@@ -69,8 +67,6 @@
 //         keyboardType="numeric"
 //       />
 
-      
-
 //       <Text style={styles.label}>Enter your Weight (in kg)</Text>
 //       <TextInput
 //         style={styles.input}
@@ -79,8 +75,6 @@
 //         onChangeText={(text) => setWeight(Number(text))}
 //         keyboardType="numeric"
 //       />
-
-      
 
 //       {/* Next Button */}
 //       <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
@@ -173,10 +167,6 @@
 
 // export default SleepScreen;
 
-
-
-
-
 import React, { useState } from "react";
 import {
   View,
@@ -189,7 +179,7 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useUser } from "../../contexts/userContext";
-import { axiosWithAuth } from "@/app/utils/api";
+import { axiosWithAuth } from "@/utils/api";
 
 const SleepScreen = () => {
   const { updateUserInfo } = useUser();
@@ -208,7 +198,10 @@ const SleepScreen = () => {
 
     try {
       const axiosInstance = await axiosWithAuth();
-      const response = await axiosInstance.post("/api/user-input/page3/", payload);
+      const response = await axiosInstance.post(
+        "/api/user-input/page3/",
+        payload
+      );
       if (response.status === 200) {
         router.push("/inputScreens/page4");
       } else {
@@ -292,7 +285,7 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontSize: 26,
     fontWeight: "bold",
-    color: "#3A7CA5", 
+    color: "#3A7CA5",
     textAlign: "center",
     marginBottom: 20,
   },
@@ -326,4 +319,3 @@ const styles = StyleSheet.create({
 });
 
 export default SleepScreen;
-

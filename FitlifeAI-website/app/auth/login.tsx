@@ -28,9 +28,10 @@ const Login = () => {
     }
 
     try {
+      // const response = await fetch(
+      // "http://localhost:8000/api/login/", //browser
       const response = await fetch(
-        "http://localhost:8000/api/login/", //browser
-        //const response = await fetch("http://192.168.1.44:8000/api/login/", //mobile
+        "http://192.168.1.44:8000/api/login/", //mobile
         {
           method: "POST",
           headers: {
@@ -48,7 +49,7 @@ const Login = () => {
         console.log("Login successful!");
 
         await AsyncStorage.setItem("authToken", data.token);
-        updateUserInfo({ username: data.username, authToken: data.token });
+        updateUserInfo({ authToken: data.token });
 
         router.push({
           pathname: "/inputScreens/page1",
@@ -72,42 +73,42 @@ const Login = () => {
         source={require("@/assets/images/login/girl.png")}
         style={styles.up_image}
       />
-     <View style={styles.loginContainer}>
-      <Text style={styles.heading}>LOGIN</Text>
+      <View style={styles.loginContainer}>
+        <Text style={styles.heading}>LOGIN</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email or Username"
-        value={emailOrUsername}
-        onChangeText={setEmailOrUsername}
-        autoCapitalize="none"
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Email or Username"
+          value={emailOrUsername}
+          onChangeText={setEmailOrUsername}
+          autoCapitalize="none"
+          keyboardType="email-address"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
 
-      <TouchableOpacity style={styles.buttonContainer} onPress={handleLogin}>
-        <LinearGradient colors={["#5A9BD5", "#6BAED6"]} style={styles.button}>
-          <Text style={styles.buttonText}>Log in</Text>
-        </LinearGradient>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonContainer} onPress={handleLogin}>
+          <LinearGradient colors={["#5A9BD5", "#6BAED6"]} style={styles.button}>
+            <Text style={styles.buttonText}>Log in</Text>
+          </LinearGradient>
+        </TouchableOpacity>
 
-      <View>
-        <Text style={styles.footerText}>
-          Don't have an account?{" "}
-          <Text
-            style={styles.loginText}
-            onPress={() => router.push("/auth/signUp")}
-          >
-            SIGN UP
+        <View>
+          <Text style={styles.footerText}>
+            Don't have an account?{" "}
+            <Text
+              style={styles.loginText}
+              onPress={() => router.push("/auth/signUp")}
+            >
+              SIGN UP
+            </Text>
           </Text>
-        </Text>
-      </View>
+        </View>
       </View>
 
       <Image
@@ -128,7 +129,6 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: "#3A7CA5",
     borderRadius: 10,
-    
   },
   heading: {
     fontSize: 26,
@@ -136,7 +136,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: "center",
-
   },
   input: {
     width: "100%",
@@ -169,7 +168,6 @@ const styles = StyleSheet.create({
   loginText: {
     color: "#3A7CA5",
     fontWeight: "bold",
-    
   },
   up_image: {
     position: "absolute",
@@ -182,7 +180,7 @@ const styles = StyleSheet.create({
     width: 200,
     marginBottom: 20,
   },
-  
+
   bottom_image: {
     position: "absolute",
     bottom: 30,

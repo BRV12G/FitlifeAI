@@ -198,7 +198,7 @@ import {
 } from "react-native";
 import { useUser } from "../../contexts/userContext";
 import { useNavigation } from "@react-navigation/native";
-import { axiosWithAuth } from "../utils/api";
+import { axiosWithAuth } from "../../utils/api";
 import axios from "axios";
 
 const EditProfileScreen = () => {

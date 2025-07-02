@@ -1,5 +1,3 @@
-
-
 import React, { useState } from "react";
 import {
   View,
@@ -12,12 +10,14 @@ import {
   Image,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { axiosWithAuth } from "@/app/utils/api";
-import { MaterialIcons, Ionicons, FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
+import { axiosWithAuth } from "@/utils/api";
+import {
+  MaterialIcons,
+  Ionicons,
+  FontAwesome5,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import Markdown from "react-native-markdown-display";
-
-
-
 
 const FitnessScreen = () => {
   const [formData, setFormData] = useState({
@@ -41,6 +41,7 @@ const FitnessScreen = () => {
     try {
       const axiosInstance = await axiosWithAuth();
       const response = await axiosInstance.post("/api/fitness/", formData);
+      console.log("Fitness response: ", response.data);
       setRecommendation(response.data.recommendation);
     } catch (err: any) {
       console.error(err);
@@ -58,12 +59,11 @@ const FitnessScreen = () => {
       "Recommended Exercises",
       "Weekly Schedule",
       "Precautions",
-      "Predicted Goal Time"
+      "Predicted Goal Time",
     ];
 
     const regex = /\*\*(\d)\.\s(.*?)\*\*/g;
     const matches = [...text.matchAll(regex)];
-
 
     let parsed = [];
 
@@ -76,10 +76,9 @@ const FitnessScreen = () => {
       const content = text.substring(startIndex, endIndex).trim();
       parsed.push({
         title: titles[i] || `Section ${i + 1}`,
-        content: content
+        content: content,
       });
     }
-
 
     // sections.forEach((section, index) => {
     //   parsed.push({
@@ -95,9 +94,13 @@ const FitnessScreen = () => {
   function getIcon(title: string) {
     switch (title) {
       case "Workout Frequency":
-        return <MaterialIcons name="calendar-today" size={24} color="#1e88e5" />;
+        return (
+          <MaterialIcons name="calendar-today" size={24} color="#1e88e5" />
+        );
       case "Recommended Exercises":
-        return <MaterialCommunityIcons name="dumbbell" size={24} color="#1e88e5" />;
+        return (
+          <MaterialCommunityIcons name="dumbbell" size={24} color="#1e88e5" />
+        );
       case "Weekly Schedule":
         return <FontAwesome5 name="clipboard-list" size={24} color="#1e88e5" />;
       case "Precautions":
@@ -111,21 +114,46 @@ const FitnessScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={{ flexDirection: "row", justifyContent: "left", marginBottom: 20, gap: "1%", alignItems: "center", left:0 }}>
-        <Image source={require('@/assets/fitness/girl4.png')} style={styles.Titleimage} />
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "left",
+          marginBottom: 20,
+          gap: "1%",
+          alignItems: "center",
+          left: 0,
+        }}
+      >
+        <Image
+          source={require("@/assets/fitness/girl4.png")}
+          style={styles.Titleimage}
+        />
         <Text style={styles.title}> Fitness Planner</Text>
-
-      
       </View>
       <Text style={styles.subtitle}>
         Tell us your goals, and we’ll craft a custom workout plan for you!
       </Text>
-      
 
-      <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 20, gap: "1%"}}>
-        <Image source={require('@/assets/fitness/girl2.png')} style={styles.image} />
-                <Image source={require('@/assets/fitness/girl1.png')} style={styles.image} />
-        <Image source={require('@/assets/fitness/girl3.png')} style={styles.image} />
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          marginBottom: 20,
+          gap: "1%",
+        }}
+      >
+        <Image
+          source={require("@/assets/fitness/girl2.png")}
+          style={styles.image}
+        />
+        <Image
+          source={require("@/assets/fitness/girl1.png")}
+          style={styles.image}
+        />
+        <Image
+          source={require("@/assets/fitness/girl3.png")}
+          style={styles.image}
+        />
       </View>
 
       {Object.entries(formData).map(([key, value]) => (
@@ -143,13 +171,15 @@ const FitnessScreen = () => {
         <ActivityIndicator size="large" color="#3A7CA5" />
       ) : (
         <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-          <Image source={require('@/assets/fitness/plan.png')} style={styles.GenerateImage}/>
+          <Image
+            source={require("@/assets/fitness/plan.png")}
+            style={styles.GenerateImage}
+          />
           <Text style={styles.submitText}> Generate Plan</Text>
         </TouchableOpacity>
       )}
 
-
-       {recommendation !== "" && (
+      {recommendation !== "" && (
         <View style={styles.resultContainer}>
           {parseResponse(recommendation).map((section, index) => (
             <View key={index} style={styles.card}>
@@ -157,7 +187,8 @@ const FitnessScreen = () => {
                 {getIcon(section.title)}
                 <Text style={styles.cardTitle}>{section.title}</Text>
               </View>
-              <Markdown style={markdownStyles}>{section.content}</Markdown> </View>
+              <Markdown style={markdownStyles}>{section.content}</Markdown>{" "}
+            </View>
           ))}
         </View>
       )}
@@ -230,7 +261,6 @@ const styles = StyleSheet.create({
     color: "#333",
     lineHeight: 24,
     marginBottom: 8,
-    
   },
   image: {
     width: 100,
@@ -240,7 +270,7 @@ const styles = StyleSheet.create({
     // borderWidth: 2,
     // borderColor: "#3A7CA5",
   },
-   Titleimage: {
+  Titleimage: {
     width: 50,
     height: 50,
     borderRadius: 40,
@@ -256,7 +286,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#3A7CA5",
   },
-   resultContainer: {
+  resultContainer: {
     marginTop: 20,
   },
   card: {
@@ -289,9 +319,7 @@ const styles = StyleSheet.create({
     color: "#424242",
     lineHeight: 22,
   },
-  
 });
-
 
 const markdownStyles = {
   text: {
@@ -316,4 +344,3 @@ const markdownStyles = {
 };
 
 export default FitnessScreen;
-

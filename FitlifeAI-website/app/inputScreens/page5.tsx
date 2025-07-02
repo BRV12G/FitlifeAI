@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useUser } from "../../contexts/userContext";
-import { axiosWithAuth } from "../utils/api";
+import { axiosWithAuth } from "../../utils/api";
 
 const sleepDisorderOptions = ["None", "Insomnia", "Sleep Apnea", "Narcolepsy"];
 
@@ -52,13 +52,11 @@ const Page5 = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
-       <Image
-          source={require("@/assets/images/inputpages/page5.png")} // <-- Replace with your image
-          style={styles.topRightImage}
-        />
+      <Image
+        source={require("@/assets/images/inputpages/page5.png")} // <-- Replace with your image
+        style={styles.topRightImage}
+      />
       <View style={styles.card}>
-        
-
         <Text style={styles.welcomeText}>🛌 Rest, Steps & Heart</Text>
 
         <Text style={styles.label}>💓 What’s your resting heart rate?</Text>
@@ -79,7 +77,9 @@ const Page5 = () => {
           keyboardType="numeric"
         />
 
-        <Text style={styles.label}>😴 Do you experience any sleep disorder?</Text>
+        <Text style={styles.label}>
+          😴 Do you experience any sleep disorder?
+        </Text>
         <View style={styles.radioContainer}>
           {sleepDisorderOptions.map((option) => (
             <TouchableOpacity

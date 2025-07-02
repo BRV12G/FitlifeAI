@@ -142,3 +142,4 @@ STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
 
+APPEND_SLASH = False

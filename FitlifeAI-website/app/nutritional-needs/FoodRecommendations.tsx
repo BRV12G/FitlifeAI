@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   View,
@@ -11,7 +10,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { axiosWithAuth } from "../utils/api";
+import { axiosWithAuth } from "@/utils/api";
 
 const RecommendationScreen = () => {
   const [recommendations, setRecommendations] = useState(null);
@@ -20,12 +19,11 @@ const RecommendationScreen = () => {
   const [expandedLunch, setExpandedLunch] = useState(false);
   const [expandedDinner, setExpandedDinner] = useState(false);
 
-
   const fetchRecommendations = async () => {
     setLoading(true);
     try {
       const api = await axiosWithAuth();
-      const response = await api.get("/api/recommendations");
+      const response = await api.get("/api/recommendations/");
       setRecommendations(response.data);
     } catch (error) {
       console.error("Failed to fetch:", error);
@@ -45,10 +43,34 @@ const RecommendationScreen = () => {
       >
         {/* <Image source={{ uri: item.image_url }} style={styles.foodImage} /> */}
         <Text style={styles.foodName}>{item.name}</Text>
-        <View style={styles.proteinContainer}><Image source={require('@/assets/nutritients/calories.png')} style={styles.proteinIcon}/><Text> Calories: {item.calories}</Text></View>
-        <View style={styles.proteinContainer}><Image source={require('@/assets/nutritients/eggs.png')} style={styles.proteinIcon}/><Text> Protein: {item.protein}g</Text></View>
-        <View style={styles.proteinContainer}><Image source={require('@/assets/nutritients/fats.png')} style={styles.proteinIcon}/><Text> Fat: {item.fat}g</Text></View>
-        <View style={styles.proteinContainer}><Image source={require('@/assets/nutritients/carbs.png')} style={styles.proteinIcon}/><Text> Crabs: {item.carbs}g</Text></View>
+        <View style={styles.proteinContainer}>
+          <Image
+            source={require("@/assets/nutritients/calories.png")}
+            style={styles.proteinIcon}
+          />
+          <Text> Calories: {item.calories}</Text>
+        </View>
+        <View style={styles.proteinContainer}>
+          <Image
+            source={require("@/assets/nutritients/eggs.png")}
+            style={styles.proteinIcon}
+          />
+          <Text> Protein: {item.protein}g</Text>
+        </View>
+        <View style={styles.proteinContainer}>
+          <Image
+            source={require("@/assets/nutritients/fats.png")}
+            style={styles.proteinIcon}
+          />
+          <Text> Fat: {item.fat}g</Text>
+        </View>
+        <View style={styles.proteinContainer}>
+          <Image
+            source={require("@/assets/nutritients/carbs.png")}
+            style={styles.proteinIcon}
+          />
+          <Text> Crabs: {item.carbs}g</Text>
+        </View>
       </LinearGradient>
     ));
   };
@@ -61,47 +83,81 @@ const RecommendationScreen = () => {
           Curated meals based on your health profile
         </Text>
       </View>
- <View style={styles.imageContainer}>
-      <View style={styles.image}>
-        <Image source={require('@/assets/nutritients/girl_eating.png')} style={styles.image} />
+      <View style={styles.imageContainer}>
+        <View style={styles.image}>
+          <Image
+            source={require("@/assets/nutritients/girl_eating.png")}
+            style={styles.image}
+          />
+        </View>
+
+        <TouchableOpacity
+          style={styles.fetchButton}
+          onPress={fetchRecommendations}
+        >
+          <Text style={styles.fetchButtonText}>🎯 Get My Recommendations</Text>
+        </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.fetchButton} onPress={fetchRecommendations}>
-        <Text style={styles.fetchButtonText}>🎯 Get My Recommendations</Text>
-      </TouchableOpacity>
-      </View>
-
-      {loading && <ActivityIndicator size="large" color="#3A7CA5" style={{ marginTop: 20 }} />}
+      {loading && (
+        <ActivityIndicator
+          size="large"
+          color="#3A7CA5"
+          style={{ marginTop: 20 }}
+        />
+      )}
 
       {recommendations && (
         <View style={styles.resultSection}>
           <Text style={styles.sectionTitle}>
-            📊 Your BMI: {recommendations.bmi} 
+            📊 Your BMI: {recommendations.bmi}
           </Text>
-          <Text style={styles.bmiInfo}> Your BMI is in a <Text style={styles.bmiRange}>{recommendations.bmi_info}</Text> Range</Text>
+          <Text style={styles.bmiInfo}>
+            {" "}
+            Your BMI is in a{" "}
+            <Text style={styles.bmiRange}>{recommendations.bmi_info}</Text>{" "}
+            Range
+          </Text>
 
           {/* Breakfast Section */}
-          <View style={styles.proteinContainer}><Image source={require('@/assets/nutritients/breakfast.png')} style={styles.mealIcon}/><Text style={styles.mealTitle}> Breakfast</Text></View>
+          <View style={styles.proteinContainer}>
+            <Image
+              source={require("@/assets/nutritients/breakfast.png")}
+              style={styles.mealIcon}
+            />
+            <Text style={styles.mealTitle}> Breakfast</Text>
+          </View>
 
-          <View style={styles.mealContainerBreakfast}>{renderFood(recommendations.breakfast, expandedBreakfast)}</View>
+          <View style={styles.mealContainerBreakfast}>
+            {renderFood(recommendations.breakfast, expandedBreakfast)}
+          </View>
           {recommendations.breakfast.length > 2 && (
-            <TouchableOpacity 
-              style={styles.viewMoreButton} 
+            <TouchableOpacity
+              style={styles.viewMoreButton}
               onPress={() => setExpandedBreakfast(!expandedBreakfast)}
             >
               <Text style={styles.viewMoreText}>
-                {expandedBreakfast ? "Hide options" : "View more options for Breakfast"}
+                {expandedBreakfast
+                  ? "Hide options"
+                  : "View more options for Breakfast"}
               </Text>
             </TouchableOpacity>
           )}
 
-          
           {/* Lunch Section */}
-          <View style={styles.proteinContainer}><Image source={require('@/assets/nutritients/meal.png')} style={styles.mealIcon}/><Text style={styles.mealTitle}> Lunch</Text></View>
-          <View style={styles.mealContainerBreakfast}>{renderFood(recommendations.lunch, expandedLunch)}</View>
+          <View style={styles.proteinContainer}>
+            <Image
+              source={require("@/assets/nutritients/meal.png")}
+              style={styles.mealIcon}
+            />
+            <Text style={styles.mealTitle}> Lunch</Text>
+          </View>
+          <View style={styles.mealContainerBreakfast}>
+            {renderFood(recommendations.lunch, expandedLunch)}
+          </View>
           {recommendations.lunch.length > 2 && (
-            <TouchableOpacity 
-              style={styles.viewMoreButton} 
+            <TouchableOpacity
+              style={styles.viewMoreButton}
               onPress={() => setExpandedLunch(!expandedLunch)}
             >
               <Text style={styles.viewMoreText}>
@@ -110,18 +166,27 @@ const RecommendationScreen = () => {
             </TouchableOpacity>
           )}
 
-          
           {/* Dinner Section */}
-          <View style={styles.proteinContainer}><Image source={require('@/assets/nutritients/dinner.png')} style={styles.mealIcon}/><Text style={styles.mealTitle}> Dinner</Text></View>
+          <View style={styles.proteinContainer}>
+            <Image
+              source={require("@/assets/nutritients/dinner.png")}
+              style={styles.mealIcon}
+            />
+            <Text style={styles.mealTitle}> Dinner</Text>
+          </View>
 
-          <View style={styles.mealContainerBreakfast}>{renderFood(recommendations.dinner, expandedDinner)}</View>
+          <View style={styles.mealContainerBreakfast}>
+            {renderFood(recommendations.dinner, expandedDinner)}
+          </View>
           {recommendations.dinner.length > 2 && (
-            <TouchableOpacity 
-              style={styles.viewMoreButton} 
+            <TouchableOpacity
+              style={styles.viewMoreButton}
               onPress={() => setExpandedDinner(!expandedDinner)}
             >
               <Text style={styles.viewMoreText}>
-                {expandedDinner ? "Hide options" : "View more options for Dinner"}
+                {expandedDinner
+                  ? "Hide options"
+                  : "View more options for Dinner"}
               </Text>
             </TouchableOpacity>
           )}
@@ -194,8 +259,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "45%",
     marginRight: "2.5%",
-    
-      },
+  },
   // foodImage: {
   //   width: "100%",
   //   height: 160,
@@ -209,7 +273,6 @@ const styles = StyleSheet.create({
     color: "#2e3a59",
     justifyContent: "center",
     fontStyle: "italic",
-
   },
   bmiInfo: {
     fontSize: 24,
@@ -242,7 +305,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "600",
   },
-  proteinIcon : {
+  proteinIcon: {
     width: 20,
     height: 20,
     // marginRight: 8,
@@ -252,7 +315,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 3,
     marginTop: 3,
-
   },
   mealIcon: {
     width: 30,
@@ -263,15 +325,15 @@ const styles = StyleSheet.create({
     width: 80,
     height: 140,
     borderRadius: 12,
-    marginBottom: 10, 
+    marginBottom: 10,
   },
   imageContainer: {
     alignItems: "center",
-    flexDirection: "row", width: "45%",
+    flexDirection: "row",
+    width: "45%",
     justifyContent: "between",
-    gap: "10%"
+    gap: "10%",
   },
 });
 
 export default RecommendationScreen;
-

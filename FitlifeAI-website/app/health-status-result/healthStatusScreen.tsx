@@ -5,9 +5,11 @@ import {
   ScrollView,
   StyleSheet,
   ActivityIndicator,
+  Image,
 } from "react-native";
 import { axiosWithAuth } from "../../utils/api"; // assumes you have axios setup
 import { useUser } from "../../contexts/userContext";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const HealthStatus = () => {
   const [healthData, setHealthData] = useState<any>(null);
@@ -39,7 +41,7 @@ const HealthStatus = () => {
     return <Text style={styles.error}>Failed to load health data.</Text>;
   }
 
-  const renderCard = (label: string, value: string | number) => (
+  const renderCard = (label: string, value: string | number, icon: string) => (
     <View style={styles.card} key={label}>
       <Text style={styles.label}>{label}</Text>
       <Text style={styles.value}>{value}</Text>
@@ -86,36 +88,50 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#3A7CA5",
-    marginBottom: 16,
-    textAlign: "center",
+    // marginTop: 10,
   },
-  result: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 20,
-    textAlign: "center",
-    backgroundColor: "#3A7CA5",
-    padding: 10,
-    borderRadius: 10,
-    color: "#fff",
+  sectionHeading: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#3A7CA5",
+    marginTop: 20,
+    marginBottom: 10,
   },
   card: {
     backgroundColor: "#fff",
     borderRadius: 10,
     padding: 16,
-    marginBottom: 12,
+    marginBottom: 5,
     elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    borderLeftWidth: 4,
+    borderLeftColor: "#3A7CA5",
+    // paddingRight: 35,
+    width: "48%",
   },
-  label: {
-    fontSize: 16,
+  cardHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    // marginBottom: 1,
+    top: -10,
+  },
+  cardLabel: {
+    fontSize: 17,
     fontWeight: "bold",
+    marginLeft: 8,
     color: "#333",
-    marginBottom: 4,
   },
-  value: {
+  cardValue: {
     fontSize: 16,
     color: "#555",
+    marginLeft: 28,
+    fontWeight: "500",
   },
   error: {
     textAlign: "center",

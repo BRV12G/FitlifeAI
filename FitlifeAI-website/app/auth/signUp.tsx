@@ -1,5 +1,3 @@
-
-
 import React, { useState } from "react";
 import {
   View,
@@ -16,22 +14,23 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 //import api from "./utils/api";
 import axios from "axios"; // Import axios
-import { useUser } from "../../contexts/userContext"; 
-const { width, height } = Dimensions.get("window"); 
+import { useUser } from "../../contexts/userContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+//import * as SecureStore from "expo-secure-store";
+const { width, height } = Dimensions.get("window");
 
 const SignUp = () => {
-  // Form state
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const router = useRouter(); //  Initialize router
-  const { updateUserInfo } = useUser(); // <-- ✅ Added: Access updateUserInfo from context
+
+  const router = useRouter();
+  const { updateUserInfo } = useUser();
 
   const handleSignUp = async () => {
-    // Basic validation
     if (
       !firstName ||
       !lastName ||
@@ -48,11 +47,9 @@ const SignUp = () => {
       return;
     }
 
-    // Send form data to your Django backend
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/signup/", //browser
-        //const response = await axios.post("http://192.168.1.44:8000/api/signup", //mobile
+        "http://192.168.1.44:8000/api/signup/",
         {
           first_name: firstName,
           last_name: lastName,
@@ -63,12 +60,9 @@ const SignUp = () => {
       );
 
       console.log("Signup successful:", response.data);
+      await AsyncStorage.setItem("authToken", response.data.token);
+      updateUserInfo({ ...response.data.user, token: response.data.token });
       Alert.alert("Success", "You have signed up successfully!");
-
-      // Optionally, you can update the global user info context here
-      updateUserInfo({ firstName, lastName, email, username });
-
-      // Navigate to the next page
       router.push("/inputScreens/page1");
     } catch (error) {
       console.error("Error signing up:", error);
@@ -78,7 +72,6 @@ const SignUp = () => {
       );
     }
 
-    // Reset form
     setFirstName("");
     setLastName("");
     setEmail("");
@@ -90,51 +83,50 @@ const SignUp = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.heading}>SIGN UP</Text>
-       <Image
+      <Image
         source={require("@/assets/images/signup/girl.png")} // Replace with the path to your image
         style={styles.bottomImage}
       />
-            <View style={styles.inputContainer}> 
-
-      <TextInput
-        style={styles.input}
-        placeholder="First name"
-        value={firstName}
-        onChangeText={setFirstName}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Last name"
-        value={lastName}
-        onChangeText={setLastName}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Confirm password"
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        secureTextEntry
-      />
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="First name"
+          value={firstName}
+          onChangeText={setFirstName}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Last name"
+          value={lastName}
+          onChangeText={setLastName}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Username"
+          value={username}
+          onChangeText={setUsername}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Confirm password"
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          secureTextEntry
+        />
       </View>
 
       <TouchableOpacity style={styles.buttonContainer} onPress={handleSignUp}>
@@ -154,7 +146,6 @@ const SignUp = () => {
           </Text>
         </Text>
       </View>
-     
     </ScrollView>
   );
 };
@@ -210,11 +201,11 @@ const styles = StyleSheet.create({
   },
   bottomImage: {
     position: "absolute", // Absolute to allow overlap
-    top: height * 0.016,    // 🔧 Position to overlap half below and half above inputs
-    left: width * 0.05,    // 🔧 Slightly shifted towards left
-    width: 160,            // 🔧 Increased size slightly
+    top: height * 0.016, // 🔧 Position to overlap half below and half above inputs
+    left: width * 0.05, // 🔧 Slightly shifted towards left
+    width: 160, // 🔧 Increased size slightly
     height: 500,
-    zIndex: -1,            // Send image behind input fields
+    zIndex: -1, // Send image behind input fields
     resizeMode: "contain",
   },
   inputContainer: {

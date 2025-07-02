@@ -10,8 +10,6 @@
 // import { useUser } from "@/contexts/userContext";
 // import { axiosWithAuth } from "../utils/api";
 
-
-
 // const bloodPressureOptions = ["Normal", "Hypertension", "Prehypertension"];
 
 // const bloodPressureScreen = () => {
@@ -92,7 +90,6 @@
 //       Your blood pressure is made up of two numbers:
 //       {"\n"}• <Text style={{ fontWeight: "bold" }}>Systolic</Text>: the pressure when your heart beats.
 //       {"\n"}• <Text style={{ fontWeight: "bold" }}>Diastolic</Text>: the pressure when your heart rests.</Text>
-
 
 //       <Text style={styles.label}>Enter your Systolic Pressure (mmHg)</Text>
 //       <TextInput
@@ -201,12 +198,10 @@
 //     shadowRadius: 10,
 //     elevation: 6,
 //   },
-  
+
 // });
 
 // export default bloodPressureScreen;
-
-
 
 import React, { useState } from "react";
 import {
@@ -220,13 +215,14 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useUser } from "../../contexts/userContext";
-import { axiosWithAuth } from "../utils/api";
+import { axiosWithAuth } from "../../utils/api";
 
 const bloodPressureOptions = ["Normal", "Hypertension", "Prehypertension"];
 
 const bloodPressureScreen = () => {
   const { userInfo, updateUserInfo } = useUser();
-  const [bloodPressureCategory, setBloodPressureCategory] = useState<string>("");
+  const [bloodPressureCategory, setBloodPressureCategory] =
+    useState<string>("");
   const [systolicPressure, setSystolicPressure] = useState<number>(0);
   const [diastolicPressure, setDiastolicPressure] = useState<number>(0);
 
@@ -274,7 +270,9 @@ const bloodPressureScreen = () => {
         <View style={styles.card}>
           <Text style={styles.welcomeText}>💓 Blood Pressure Check-In</Text>
 
-          <Text style={styles.label}>Which category best describes your BP today?</Text>
+          <Text style={styles.label}>
+            Which category best describes your BP today?
+          </Text>
 
           <View style={styles.radioContainer}>
             {bloodPressureOptions.map((option) => (
@@ -296,8 +294,10 @@ const bloodPressureScreen = () => {
 
           <Text style={styles.descriptionText}>
             Blood pressure consists of two values:
-            {"\n"}• <Text style={{ fontWeight: "bold" }}>Systolic</Text>: pressure when your heart beats.
-            {"\n"}• <Text style={{ fontWeight: "bold" }}>Diastolic</Text>: pressure when it rests.
+            {"\n"}• <Text style={{ fontWeight: "bold" }}>Systolic</Text>:
+            pressure when your heart beats.
+            {"\n"}• <Text style={{ fontWeight: "bold" }}>Diastolic</Text>:
+            pressure when it rests.
           </Text>
 
           <Text style={styles.label}>Your Systolic Pressure (mmHg)</Text>
@@ -417,4 +417,3 @@ const styles = StyleSheet.create({
 });
 
 export default bloodPressureScreen;
-

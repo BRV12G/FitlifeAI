@@ -6,7 +6,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
-import { axiosWithAuth } from "../utils/api"; // assumes you have axios setup
+import { axiosWithAuth } from "../../utils/api"; // assumes you have axios setup
 import { useUser } from "../../contexts/userContext";
 
 const HealthStatus = () => {

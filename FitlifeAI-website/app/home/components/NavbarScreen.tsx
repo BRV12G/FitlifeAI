@@ -1,20 +1,39 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Image } from 'react-native';
-import { Link } from 'expo-router';
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Linking,
+  Image,
+} from "react-native";
+import { Link } from "expo-router";
 
 const sections = [
-  { title: 'Check Your Health Status', route: '/health-status-result/healthStatus' },
-  { title: 'Checkout Your Nutritional Needs', route: '/nutritional-needs/NutritionCalculatorScreen' },
-  { title: 'Checkout Your Fitness Needs and Routine', route: '/fitness/fitnessrecs' },
-//   { title: 'Chat with Your AI-Bot', route: '/chatbot' },
-  { title: 'Plan a Diet', route: '/nutritional-needs/FoodRecommendations' },
-  { title: 'Calculate Your BMI', route: '/bmi/BmiCalculator' },
-  { title: 'Calculate Your Body Fat Percentage', route: '/body-fat-calculator/BodyFatCalculator' },
-    // { title: 'Plan A diet', route: '/dite-planner/dite-planner' },
-
+  {
+    title: "Check Your Health Status",
+    route: "/health-status-result/healthStatusScreen/",
+  },
+  {
+    title: "Checkout Your Nutritional Needs",
+    route: "/nutritional-needs/NutritionCalculatorScreen",
+  },
+  {
+    title: "Checkout Your Fitness Needs and Routine",
+    route: "/fitness/fitnessrecs",
+  },
+  //   { title: 'Chat with Your AI-Bot', route: '/chatbot' },
+  { title: "Plan a Diet", route: "/nutritional-needs/FoodRecommendations" },
+  { title: "Calculate Your BMI", route: "/bmi/BmiCalculator" },
+  {
+    title: "Calculate Your Body Fat Percentage",
+    route: "/body-fat-calculator/BodyFatCalculator",
+  },
+  // { title: 'Plan A diet', route: '/dite-planner/dite-planner' },
 ];
 
-const externalLink = 'https://fitlifeai-voice-assistant.vercel.app/';
+const externalLink = "https://fitlifeai-voice-assistant.vercel.app/";
 
 const NavbarScreen = () => {
   const openExternalLink = () => {
@@ -35,10 +54,16 @@ const NavbarScreen = () => {
 
       {/* External Voice Assistant Link */}
       <TouchableOpacity style={styles.card} onPress={openExternalLink}>
-        <Text style={styles.cardText}> Talk with Your FitLifeAI Voice Assistant</Text>
+        <Text style={styles.cardText}>
+          {" "}
+          Talk with Your FitLifeAI Voice Assistant
+        </Text>
       </TouchableOpacity>
 
-      <Image source={require('@/assets/images/home-page/girl2.png')} style={styles.imagegirl} />
+      <Image
+        source={require("@/assets/images/home-page/girl2.png")}
+        style={styles.imagegirl}
+      />
     </ScrollView>
   );
 };
@@ -49,34 +74,34 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: 30,
     paddingHorizontal: 20,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: "#f9f9f9",
   },
   heading: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-    color: '#3A7CA5',
-    textAlign: 'center',
+    color: "#3A7CA5",
+    textAlign: "center",
   },
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     padding: 18,
     borderRadius: 12,
     marginBottom: 16,
     elevation: 3,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOpacity: 0.05,
     shadowRadius: 6,
   },
   cardText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#3A7CA5',
+    fontWeight: "600",
+    color: "#3A7CA5",
   },
   imagegirl: {
     width: 200,
     height: 200,
-    alignSelf: 'center',
+    alignSelf: "center",
     // marginTop: 20,
   },
 });

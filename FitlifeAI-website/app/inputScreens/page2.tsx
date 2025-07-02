@@ -139,8 +139,6 @@
 
 // export default SleepScreen;
 
-
-
 import React, { useState } from "react";
 import {
   View,
@@ -153,7 +151,7 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useUser } from "../../contexts/userContext";
-import { axiosWithAuth } from "@/app/utils/api";
+import { axiosWithAuth } from "@/utils/api";
 
 const SleepScreen = () => {
   const { userInfo, updateUserInfo } = useUser();
@@ -180,7 +178,10 @@ const SleepScreen = () => {
 
     try {
       const axiosInstance = await axiosWithAuth();
-      const response = await axiosInstance.post("/api/user-input/page2/", userData);
+      const response = await axiosInstance.post(
+        "/api/user-input/page2/",
+        userData
+      );
 
       if (response.status === 200) {
         router.push("/inputScreens/page3");
@@ -216,7 +217,6 @@ const SleepScreen = () => {
           onChangeText={(text) => setSleepHours(Number(text))}
           keyboardType="numeric"
           placeholderTextColor="#B0B0B0"
-
         />
 
         <Text style={styles.label}>Rate your quality of sleep (1–10)</Text>
@@ -311,4 +311,3 @@ const styles = StyleSheet.create({
 });
 
 export default SleepScreen;
-

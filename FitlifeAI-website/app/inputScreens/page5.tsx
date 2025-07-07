@@ -57,7 +57,7 @@ const Page5 = () => {
         style={styles.topRightImage}
       />
       <View style={styles.card}>
-        <Text style={styles.welcomeText}>🛌 Rest, Steps & Heart</Text>
+        <Text style={styles.welcomeText}> Rest, Steps & Heart</Text>
 
         <Text style={styles.label}>💓 What’s your resting heart rate?</Text>
         <TextInput
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: "center",
     padding: 20,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#F5FAFF",
   },
   card: {
     backgroundColor: "#ffffff",
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 24,
-    color: "#333",
+    color: "#3A7CA5",
   },
   label: {
     marginTop: 20,

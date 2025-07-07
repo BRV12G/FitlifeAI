@@ -2,6 +2,12 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Linking } from 'react-native';
 import { RelativePathString, useRouter } from 'expo-router';
 import {  usePathname  } from 'expo-router';
+import ChatbotIcon from '../assets/Footer-svg/chatbot.svg';
+import NutritionIcon from '../assets/Footer-svg/nutrition.svg';
+import HomeIcon from '../assets/Footer-svg/home.svg';
+import FitnessIcon from '../assets/Footer-svg/exercise.svg';
+import ProfileIcon from '../assets/Footer-svg/profile.svg';
+
 
 const Footer = () => {
   const router = useRouter();
@@ -14,29 +20,29 @@ const Footer = () => {
   const tabs = [
     {
       label: 'VoiceAgent',
-      icon: require('../assets/Footer-svg/chatbot.svg'),
+      icon: require('../assets/Footer-svg/chatbot.png'),
       external: true,
       url: 'https://fitlifeai-voice-assistant.vercel.app/',
 
     },
     {
       label: 'Nutrition',
-      icon: require('../assets/Footer-svg/nutrition.svg'),
+      icon: require('../assets/Footer-svg/nutrition.png'),
       route: '/nutritional-needs/FoodRecommendations',
     },
     {
       label: 'Home',
-      icon: require('../assets/Footer-svg/home.svg'),
+      icon: require('../assets/Footer-svg/home.png'),
       route: '/home/homeScreen',
     },
     {
       label: 'Fitness',
-      icon: require('../assets/Footer-svg/exercise.svg'),
+      icon: require('../assets/Footer-svg/exercise.png'),
       route: '/fitness/fitnessrecs',
     },
     {
       label: 'Profile',
-      icon: require('../assets/Footer-svg/profile.svg'),
+      icon: require('../assets/Footer-svg/profile.png'),
       route: '/profile/profileScreen',
     },
   ];

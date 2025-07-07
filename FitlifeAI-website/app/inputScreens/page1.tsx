@@ -125,8 +125,9 @@ const GenderAgeOccupationScreen = () => {
           />
 
           <Text style={styles.label}>Let's talk about your physical vibe!</Text>
+          <View style={styles.pickerWrapper}>
           <Picker
-            style={styles.input}
+            style={styles.input2}
             selectedValue={physicalActivity}
             onValueChange={setPhysicalActivity}
           >
@@ -142,6 +143,7 @@ const GenderAgeOccupationScreen = () => {
             />
             <Picker.Item label="Taking it easy! (Low)" value="Low" />
           </Picker>
+          </View>
 
           <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
             <Text style={styles.nextButtonText}>Let’s move forward!</Text>
@@ -160,6 +162,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: "relative",
+    // alignItems: "center",
+    // justifyContent: "center",
+    backgroundColor: "#F5FAFF",
+    padding: 20,
+    
+  },
+   pickerWrapper: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    overflow: 'hidden', // important for Android
+    marginBottom: 16,
+    marginTop: 8,
+  },
+  input2: {
+    // height: 50,
+    // paddingHorizontal: 10,
+    color: '#000',
+    
   },
 
   contentContainer: {
@@ -171,11 +192,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: "#3A7CA5",
+    
 
     textAlign: "center",
   },
+  
   label: {
-    marginTop: 20,
+    marginTop: 23,
     fontSize: 16,
     fontWeight: "500",
   },
@@ -240,13 +263,17 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 5,
   },
-  image: {
+  Image: {
     position: "absolute",
-    top: 0,
-    left: 0,
+    // top: 0,
+    // left: 0,
     width: 200,
-    height: 200,
+    height: 100,
     resizeMode: "cover",
+    // bottom: 0,
+    left: -60,
+    marginTop: 55,
+    // right: 0,
   },
 });
 

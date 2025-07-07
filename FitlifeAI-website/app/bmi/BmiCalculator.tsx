@@ -7,7 +7,9 @@ import {
   StyleSheet,
   Linking,
   Image,
+  ScrollView,
 } from "react-native";
+import { useUser } from "@/contexts/userContext";
 
 const BMICalculator = () => {
   const [weight, setWeight] = useState<number>(0);
@@ -15,6 +17,8 @@ const BMICalculator = () => {
   const [bmi, setBMI] = useState<number | null>(null);
   const [category, setCategory] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+
+  const { userInfo } = useUser();
 
   const calculateBMI = () => {
     if (!weight || !height) {
@@ -54,7 +58,7 @@ const BMICalculator = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Image source={require('@/assets/bmi/bmi.png')} style={styles.image}/>
       <Text style={styles.title}>BMI Calculator</Text>
       <Image source={require('@/assets/bmi/girl2.png')} style={styles.image2}/>
@@ -62,7 +66,7 @@ const BMICalculator = () => {
       <View style={styles.inputBox}><Text style={styles.label}>Enter your weight (kg):</Text>
       <TextInput
         style={styles.input}
-        placeholder="Weight in kg"
+        placeholder={userInfo.weight ? String(userInfo.weight) : "Weight in kg"}
         keyboardType="numeric"
         onChangeText={(text) => setWeight(Number(text))}
       />
@@ -70,9 +74,11 @@ const BMICalculator = () => {
       <Text style={styles.label}>Enter your height (cm):</Text>
       <TextInput
         style={styles.input}
-        placeholder="Height in cm"
+        placeholder={userInfo.height ? String(userInfo.height) : "Height in cm"} // <-- Use userInfo.height as placeholder
+        placeholderTextColor="#888" // or any color you want
         keyboardType="numeric"
         onChangeText={(text) => setHeight(Number(text))}
+
       />
 
       <TouchableOpacity style={styles.button} onPress={calculateBMI}>
@@ -92,7 +98,7 @@ const BMICalculator = () => {
           
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -103,7 +109,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f2f6fc",
     padding: 24,
-    justifyContent: "center",
+    // justifyContent: "center",
+    
   },
   title: {
     fontSize: 28,
@@ -111,6 +118,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 30,
     color: "#3A7CA5",
+    
   },
   label: {
     fontSize: 16,
@@ -139,6 +147,7 @@ const styles = StyleSheet.create({
   },
   resultBox: {
     marginTop: 30,
+    marginBottom: 130,
     backgroundColor: "#fff",
     padding: 20,
     borderRadius: 10,
@@ -187,6 +196,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 5,
+    marginTop: 120,
   },
   image: {
     position: "absolute",
@@ -195,6 +205,7 @@ const styles = StyleSheet.create({
   width: 120,
   height: 150,
   zIndex: 1,
+  opacity: 0.8,
   },
   image2: {
     position: "absolute",
@@ -203,5 +214,6 @@ const styles = StyleSheet.create({
   width: 130,
   height: 160,
   zIndex: 1,
+  opacity: 0.8,
   },
 });

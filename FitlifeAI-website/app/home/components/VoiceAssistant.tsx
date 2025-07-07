@@ -46,7 +46,7 @@ const VoiceAssistantPromo = () => {
           style={styles.topRightImage}
         />
 
-        <Text style={styles.title}>🎙️ Meet FitLife AI Assistant</Text>
+        <Text style={styles.title}> Meet FitLifeAI Voice Assistant</Text>
         <Text style={styles.subtitle}>
           Your smart fitness coach — talk, train, and transform.
         </Text>
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: "bold",
-    color: "#333",
+    color: "#3A7CA5",
     marginBottom: 10,
     textAlign: "center",
   },

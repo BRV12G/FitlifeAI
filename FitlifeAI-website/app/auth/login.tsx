@@ -34,7 +34,7 @@ const Login = () => {
       // const response = await fetch(
       // "http://localhost:8000/api/login/", //browser
       const response = await fetch(
-        "http://192.168.0.191:8000/api/login/", //mobile
+        "http://192.168.1.44:8000/api/login/", //mobile
         {
           method: "POST",
           headers: {
@@ -55,7 +55,7 @@ const Login = () => {
         updateUserInfo({ authToken: data.token });
 
         router.push({
-          pathname: "/home/homeScreen",
+          pathname: "/inputScreens/page1",
           params: { username: data.username },
         });
 

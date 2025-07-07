@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+<<<<<<< HEAD
 const API_BASE_URL = "http://192.168.0.191:8000"; //mobile
 // const API_BASE_URL = "http://127.0.0.1:8000" //browser
 

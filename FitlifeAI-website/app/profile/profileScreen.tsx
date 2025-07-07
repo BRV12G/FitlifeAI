@@ -137,8 +137,7 @@ const ProfileScreen = () => {
             <Text style={styles.value}>{userInfo.sleep_disorder}</Text>
           </Text>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
   );
 };
 

@@ -171,7 +171,7 @@ const HealthStatus = () => {
       </View>
      
              <Image source={require("../../assets/health-status/sitting.png")} style={styles.chicken} />
-
+      
       {/* {renderCard("Vitamin A", `${healthData.vitamin_a} mcg`)} */}
       {/* {renderCard("Vitamin C", `${healthData.vitamin_c} mg`)} */}
       {/* {renderCard("Vitamin D", `${healthData.vitamin_d} mcg`)} */}
@@ -211,7 +211,7 @@ const HealthStatus = () => {
       <Text style={styles.sectionHeading}>
         <Icon name="cup-water" size={18} color="#3A7CA5" /> Water & Fiber
       </Text>
-      <View style={styles.gridWrapper}>
+      <View style={styles.gridWrapper2}>
       {renderCard("Fiber Intake", `${healthData.fiber} g`, "leaf")}
       {renderCard("Water Intake", `${healthData.water} L`, "cup-water")}
       </View>
@@ -227,6 +227,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f4f9ff",
     padding: 16,
     flex: 1,
+    marginBottom: 20,
   },
   // heading: {
   //   fontSize: 24,
@@ -349,6 +350,24 @@ borderWidth: 2,
   elevation: 3,
   paddingVertical: 10, // Adds vertical padding to the grid
 },
+  gridWrapper2: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    gap: 10, // Adjusts the space between cards
+    paddingHorizontal: 10, // Adds horizontal padding to the grid
+    backgroundColor: "#f9f9f9",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    paddingVertical: 10, // Adds vertical padding to the grid
+    marginBottom: 20, // Adds bottom margin to the grid
+  },
   image: {
     width: 160,
     height: 260,
@@ -368,7 +387,7 @@ pageTitle: {
   fontSize: 26,
   fontWeight: "bold",
   color: "#3A7CA5",
-  marginBottom: 20,
+  marginBottom: 10,
   textAlign: "center",
 },
 
@@ -399,8 +418,8 @@ statusSubtext: {
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3,
-    marginHorizontal: 140,
-    marginTop: -80,
+    // elevation: 3,
+    marginHorizontal: 180,
+    marginTop: -120,
   },
 });

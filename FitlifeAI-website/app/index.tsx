@@ -16,7 +16,10 @@ export default function HomeLayout(): JSX.Element {
       </View>
 
       {/* Title */}
-      <Text style={styles.heading}>Stay on Track{'\n'}with {'\n'}<Text style={styles.bold}>FitLife-AI</Text></Text>
+      <Text style={styles.heading}>
+        Stay on Track{'\n'}with {'\n'}
+        <Text style={[styles.bold, styles.heading]}>FitLife-AI</Text>
+      </Text>
       <Text style={styles.subtitle}>
         Your all-in-one health{'\n'}
         companion for fitness, nutrition,{'\n'}

@@ -255,8 +255,8 @@ const styles = StyleSheet.create({
     gap: 5,
   },
   avatar2: {
-    width: 160,
-    height: 270,
+    width: 130,
+    height: 250,
     // marginRight: 10,
     marginLeft: 0,
     // borderRadius: 16,

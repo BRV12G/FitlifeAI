@@ -11,6 +11,7 @@ import {
 import { useUser } from "../../contexts/userContext";
 import { Router, useRouter } from "expo-router";
 import { axiosWithAuth } from "../../utils/api";
+import LogoutButton from "./LogoutButton";
 // import { ScrollView } from "react-native-reanimated/lib/typescript/Animated";
 
 const ProfileScreen = () => {
@@ -96,18 +97,18 @@ const ProfileScreen = () => {
             Edit Profile
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.secondaryButton]}>
-          <Text style={styles.buttonText}>Change Password</Text>
+        <TouchableOpacity style={[ styles.secondaryButton]}>
+          <LogoutButton />
         </TouchableOpacity>
       </View>
 
       {/* <Text style={styles.sectionTitle}>Health Information</Text> */}
 
-      <View style={styles.healthInfoSection}>
-        <Image
+      {/* <View style={styles.healthInfoSection}> */}
+        {/* <Image
           source={require("@/assets/images/profile/girl1.png")}
           style={styles.avatar2}
-        />
+        /> */}
         <View style={styles.healthInfo}>
           <Text style={styles.sectionTitle}>Health Information</Text>
 
@@ -136,7 +137,7 @@ const ProfileScreen = () => {
             <Text style={styles.value}>{userInfo.sleep_disorder}</Text>
           </Text>
         </View>
-      </View>
+      {/* </View> */}
     </ScrollView>
   );
 };
@@ -196,6 +197,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    marginHorizontal: 30,
   },
   label: {
     fontWeight: "600",
@@ -209,7 +211,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   buttonContainer: {
-    // marginTop: 20,
+    marginTop: 10,
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
@@ -228,7 +230,14 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   secondaryButton: {
-    backgroundColor: "#4a90e2",
+    backgroundColor: "#DC143C",
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    marginTop: 10,
+    width: "70%",
+    // shadowColor: "#000",
+
   },
   buttonText: {
     color: "#fff",
@@ -245,8 +254,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   healthInfoSection: {
-    flexDirection: "row",
-    alignItems: "flex-start",
+    // flexDirection: "row",
+    // alignItems: "flex-",
     marginBottom: 2,
     marginTop: 10,
     flexWrap: "wrap",

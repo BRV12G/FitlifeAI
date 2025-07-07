@@ -11,6 +11,7 @@ import {
 import { useUser } from "../../contexts/userContext";
 import { Router, useRouter } from "expo-router";
 import { axiosWithAuth } from "../../utils/api";
+import LogoutButton from "@/components/LogoutButton";
 // import { ScrollView } from "react-native-reanimated/lib/typescript/Animated";
 
 const ProfileScreen = () => {
@@ -137,6 +138,7 @@ const ProfileScreen = () => {
           </Text>
         </View>
       </View>
+      <LogoutButton></LogoutButton>
     </ScrollView>
   );
 };

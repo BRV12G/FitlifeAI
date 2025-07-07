@@ -68,6 +68,13 @@ le_bmi_class = joblib.load(os.path.join(MODEL_DIR, "le_bmi_class.pkl"))
 @permission_classes([AllowAny])
 def signup_view(request):
     print("Signup data:", request.data)
+    # password = request.data.get("password")
+    # try:
+    #     validate_password(password)
+    # except DjangoValidationError as e:
+    #     return Response({"password": e.messages}, status=status.HTTP_400_BAD_REQUEST)
+    
+
     serializer = UserSerializer(data= request.data)
     if serializer.is_valid():
         serializer.save()

@@ -24,14 +24,14 @@ const Login = () => {
     if (!emailOrUsername || !password) {
       Alert.alert("Error", "Please enter your credentials.");
       return;
-      ("http://192.168.1.44:8000");
+      ("http://192.168.0.128:8000");
     }
 
     try {
       // const response = await fetch(
       // "http://localhost:8000/api/login/", //browser
       const response = await fetch(
-        "http://192.168.1.44:8000/api/login/", //mobile
+        "http://192.168.0.128:8000/api/login/", //mobile
         {
           method: "POST",
           headers: {
@@ -52,7 +52,8 @@ const Login = () => {
         updateUserInfo({ authToken: data.token });
 
         router.push({
-          pathname: "/inputScreens/page1",
+          //pathname: "/inputScreens/page1",
+          pathname: "/home/homeScreen",
           params: { username: data.username },
         });
 

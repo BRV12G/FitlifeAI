@@ -49,7 +49,7 @@ const SignUp = () => {
 
     try {
       const response = await axios.post(
-        "http://192.168.1.44:8000/api/signup/",
+        "http://192.168.0.128:8000/api/signup/",
         {
           first_name: firstName,
           last_name: lastName,

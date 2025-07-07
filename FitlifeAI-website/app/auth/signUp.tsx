@@ -16,6 +16,8 @@ import { useRouter } from "expo-router";
 import axios from "axios"; // Import axios
 import { useUser } from "../../contexts/userContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Ionicons } from "@expo/vector-icons";
+
 //import * as SecureStore from "expo-secure-store";
 const { width, height } = Dimensions.get("window");
 
@@ -26,9 +28,20 @@ const SignUp = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false); // ✅ Added state for toggling password visibility
 
   const router = useRouter();
   const { updateUserInfo } = useUser();
+
+  const validatePassword = (password) => {
+  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#!]).{6,}$/;
+  return regex.test(password);
+};
+
+const validateEmail = (email) => {
+  return email.includes("@");
+};
+
 
   const handleSignUp = async () => {
     if (
@@ -46,10 +59,23 @@ const SignUp = () => {
       Alert.alert("Error", "Passwords do not match.");
       return;
     }
+    if (!validatePassword(password)) {
+      Alert.alert(
+        "Password must be at least 6 characters long and include:- ",
+        "1. At least one uppercase letter\n2. At least one lowercase letter\n3. At least one number\n4. At least one special character (@, #, !)"
+      );
+      return;
+
+    }
+    if (!validateEmail(email)) {
+  Alert.alert("Invalid Email", "Please enter a valid email address with '@'.");
+  return;
+}
 
     try {
       const response = await axios.post(
-        "http://192.168.1.44:8000/api/signup/",
+        "http://192.168.0.191:8000/api/signup/",
+        // "http://localhost:8000/api/signup/",
         {
           first_name: firstName,
           last_name: lastName,
@@ -113,20 +139,53 @@ const SignUp = () => {
           value={username}
           onChangeText={setUsername}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-        <TextInput
+       <View style={styles.passwordWrapper}>
+  <TextInput
+    style={[styles.input, { flex: 1, borderWidth: 0 }]} // remove inner border
+    placeholder="Password"
+    value={password}
+    onChangeText={setPassword}
+    secureTextEntry={!showPassword}
+  />
+  <TouchableOpacity
+    onPress={() => setShowPassword(!showPassword)}
+    style={styles.eyeButton}
+  >
+    <Ionicons
+      name={showPassword ? "eye-off" : "eye"}
+      size={22}
+      color="#666"
+    />
+  </TouchableOpacity>
+</View>
+        {/* <TextInput
           style={styles.input}
           placeholder="Confirm password"
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           secureTextEntry
-        />
+        /> */}
+
+
+        <View style={styles.passwordWrapper}>
+  <TextInput
+    style={[styles.input, { flex: 1, borderWidth: 0 }]} // remove inner border
+    placeholder="Confirm Password"
+    value={confirmPassword}
+    onChangeText={setConfirmPassword}
+    secureTextEntry={!showPassword}
+  />
+  <TouchableOpacity
+    onPress={() => setShowPassword(!showPassword)}
+    style={styles.eyeButton}
+  >
+    <Ionicons
+      name={showPassword ? "eye-off" : "eye"}
+      size={22}
+      color="#666"
+    />
+  </TouchableOpacity>
+</View>
       </View>
 
       <TouchableOpacity style={styles.buttonContainer} onPress={handleSignUp}>
@@ -211,6 +270,22 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: "100%",
   },
+  // ✅ Replace styles or add these new ones
+passwordWrapper: {
+  width: "100%",
+  flexDirection: "row",
+  alignItems: "center",
+  backgroundColor: "#f9f9f9",
+  borderColor: "#ccc",
+  borderWidth: 1,
+  borderRadius: 8,
+  paddingHorizontal: 10,
+  marginVertical: 8,
+},
+eyeButton: {
+  paddingHorizontal: 6,
+},
+
 });
 
 export default SignUp;

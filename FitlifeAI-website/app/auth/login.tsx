@@ -13,10 +13,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useUser } from "../../contexts/userContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Ionicons } from "@expo/vector-icons";
+
 
 const Login = () => {
   const [emailOrUsername, setEmailOrUsername] = useState("");
   const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false); // ✅ Added state for toggling password visibility
   const router = useRouter();
   const { updateUserInfo } = useUser();
 
@@ -24,14 +27,14 @@ const Login = () => {
     if (!emailOrUsername || !password) {
       Alert.alert("Error", "Please enter your credentials.");
       return;
-      ("http://192.168.1.44:8000");
+      ("http://192.168.1.2:8000");
     }
 
     try {
       // const response = await fetch(
       // "http://localhost:8000/api/login/", //browser
       const response = await fetch(
-        "http://192.168.1.44:8000/api/login/", //mobile
+        "http://192.168.0.191:8000/api/login/", //mobile
         {
           method: "POST",
           headers: {
@@ -52,7 +55,7 @@ const Login = () => {
         updateUserInfo({ authToken: data.token });
 
         router.push({
-          pathname: "/inputScreens/page1",
+          pathname: "/home/homeScreen",
           params: { username: data.username },
         });
 
@@ -78,19 +81,36 @@ const Login = () => {
 
         <TextInput
           style={styles.input}
-          placeholder="Email or Username"
+          placeholder="Username"
           value={emailOrUsername}
           onChangeText={setEmailOrUsername}
           autoCapitalize="none"
           keyboardType="email-address"
         />
-        <TextInput
+
+        {/* <TextInput
           style={styles.input}
           placeholder="Password"
           value={password}
           onChangeText={setPassword}
           secureTextEntry
-        />
+        /> */}
+
+        <View style={styles.passwordWrapper}>
+          <TextInput
+            style={[styles.input, { flex: 1, borderWidth: 0 }]}
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={!showPassword} // ✅ Toggle secureTextEntry
+          />
+          <TouchableOpacity
+            onPress={() => setShowPassword(!showPassword)}
+            style={styles.eyeButton}
+          >
+            <Ionicons name={showPassword ? "eye-off" : "eye"} size={24} color="#666" />
+          </TouchableOpacity>
+        </View>
 
         <TouchableOpacity style={styles.buttonContainer} onPress={handleLogin}>
           <LinearGradient colors={["#5A9BD5", "#6BAED6"]} style={styles.button}>
@@ -111,10 +131,10 @@ const Login = () => {
         </View>
       </View>
 
-      <Image
+      {/* <Image
         source={require("@/assets/images/login/girl2.png")}
         style={styles.bottom_image}
-      />
+      /> */}
     </ScrollView>
   );
 };
@@ -129,6 +149,20 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: "#3A7CA5",
     borderRadius: 10,
+  },
+  passwordWrapper: {
+    width: "100%", // ✅ Wrapper for password input and toggle
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f9f9f9",
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingRight: 10,
+    marginVertical: 8,
+  },
+  eyeButton: {
+    paddingHorizontal: 8, // ✅ Positioning for eye icon
   },
   heading: {
     fontSize: 26,

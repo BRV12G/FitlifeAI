@@ -262,7 +262,7 @@ const bloodPressureScreen = () => {
 
   return (
     <ImageBackground
-      source={require("@/assets/images/inputpages/page4.png")} // replace with your image
+      source={require("@/assets/images/inputpages/page_4.png")} // replace with your image
       style={styles.background}
       resizeMode="cover"
     >
@@ -332,6 +332,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: "100%",
+    position: "relative",
+    opacity: 0.95,
   },
   scrollContainer: {
     flexGrow: 1,
@@ -353,7 +355,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 16,
-    color: "#3A3A3A",
+    color: "#3A7CA5",
   },
   label: {
     marginTop: 20,

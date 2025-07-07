@@ -6,9 +6,9 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
-  Picker,
   Image,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 
 const activityLevels = [
   { label: "Sedentary: little or no exercise", value: 1.2 },

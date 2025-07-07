@@ -17,7 +17,7 @@ const HeroSection = () => {
       <Text style={styles.title}>FitLifeAI</Text>
       <Text style={styles.subtitle}>Your AI-Powered Healthy-life Companion</Text>
       <Image
-        source={require('@/assets/images/home-page/girl.png')} // Replace with your actual image path
+        source={require('@/assets/images/home-page/GIRLL.png')} // Replace with your actual image path
         style={styles.image}
         resizeMode="contain"
       />
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 12,
-    color: '#1E1E1E',
+    color: '#3A7CA5',
   },
   subtitle: {
     fontSize: 16,
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 200,
+    height: 250,
     marginBottom: 20,
   },
   button: {

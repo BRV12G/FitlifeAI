@@ -5,14 +5,14 @@ import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
 const features = [
   {
     id: '1',
-    title: 'AI Chatbot',
-    description: 'Get real-time guidance and answers from your fitness assistant.',
+    title: 'AI Voice Assistant',
+    description: 'Get a plan generated from your fitness assistant.',
     icon: require('@/assets/images/home-page/chatbot.png'),
   },
   {
     id: '2',
     title: 'Nutrition Recommendations',
-    description: 'Personalized suggestions based on your goals and body data.',
+    description: 'Suggestions based on your goals and body data.',
     icon: require('@/assets/images/home-page/nutrients.png'),
   },
   {
@@ -60,6 +60,7 @@ const CoreFeatures = () => {
         numColumns={2}
         columnWrapperStyle={styles.row}
         contentContainerStyle={styles.list}
+        scrollEnabled={false}
       />
     </View>
   );
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textAlign: 'center',
     marginBottom: 20,
-    color: '#222',
+    color: '#3A7CA5',
   },
   list: {
     alignItems: 'center',

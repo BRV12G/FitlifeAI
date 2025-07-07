@@ -45,7 +45,7 @@ const NavbarScreen = () => {
       <Text style={styles.heading}>Welcome to FitLifeAI</Text>
 
       {sections.map((section, index) => (
-        <Link href={section.route} key={index} style={styles.card} asChild>
+        <Link href={section.route} key={index} style={styles.card} >
           <View>
             <Text style={styles.cardText}>{section.title}</Text>
           </View>
@@ -72,14 +72,14 @@ export default NavbarScreen;
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 30,
+    paddingVertical: 20,
     paddingHorizontal: 20,
     backgroundColor: "#f9f9f9",
   },
   heading: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 10,
     color: "#3A7CA5",
     textAlign: "center",
   },
